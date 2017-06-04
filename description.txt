@@ -1,0 +1,9 @@
+Binds you to play by honor codes. Can be adjusted in-game and then locked in for a given world.  The following mods are required to run this:
+- Durability: Items and armor break with use.
+- Lives: Finite number of deaths (unless playing hardcore).
+- Injury: Excessive damage lowers max health.
+- Stamina: Activity is limited by accumulated fatigue.
+- Capitalism: Shop prices increase with spending.
+- The Lunatic: Bosses must be killed by a time limit.
+- Losing Is Fun: Assorted tweaks for gameplay fairness.
+- Hamstar's Helpers: Assorted utility/library functions.

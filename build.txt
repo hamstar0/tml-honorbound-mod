@@ -1,0 +1,7 @@
+author = hamstar
+version = 1.0.0.1
+displayName = Honor Bound
+modReferences = HamstarHelpers, Durability, Injury, Lives, Stamina, Capitalism, TheLunatic, LosingIsFun
+buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, .git\*
+includePDB = true
+homepage = https://forums.terraria.org/index.php?threads/honor-bound-adjustable-game-modes-mod-pack-presets.58460/
