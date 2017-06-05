@@ -16,12 +16,14 @@ namespace HonorBound {
 
 
 	public class HonorBoundMod : Mod {
-		public static readonly Version ConfigVersion = new Version( 1, 0, 0 );
+		public static readonly Version ConfigVersion = new Version( 1, 0, 1 );
 		public JsonConfig<ConfigurationData> Config { get; private set; }
 
 		public HonorBoundUI UI = null;
 		private int LastSeenScreenWidth = -1;
 		private int LastSeenScreenHeight = -1;
+
+		internal bool NeedsUpdate = false;
 		
 
 
@@ -46,6 +48,7 @@ namespace HonorBound {
 
 				if( vers_since < HonorBoundMod.ConfigVersion ) {
 					ErrorLogger.Log( "Honor Bound config updated to " + HonorBoundMod.ConfigVersion.ToString() );
+					this.NeedsUpdate = true;
 
 					this.Config.Data.VersionSinceUpdate = HonorBoundMod.ConfigVersion.ToString();
 					this.Config.SaveFile();
@@ -76,14 +79,14 @@ namespace HonorBound {
 			var my_world = this.GetModWorld<HonorBoundWorld>();
 			var my_logic = my_world.Logic;
 
-			if( !my_logic.HasBegin() ) {
+			if( !my_logic.HasBegun() ) {
 				my_logic.RefreshAllowedHonorifics();
 
 				int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Mouse Text" ) );
 				if( idx != -1 ) {
 					layers.Insert( idx, new MethodSequenceListItem( "HonorBound: Honorific Picker",
 						delegate {
-							this.UI.RefreshAllowedOptions();
+							this.UI.RefreshAllowedOptions( my_logic );
 
 							if( this.LastSeenScreenWidth != Main.screenWidth || this.LastSeenScreenHeight != Main.screenHeight ) {
 								this.LastSeenScreenWidth = Main.screenWidth;

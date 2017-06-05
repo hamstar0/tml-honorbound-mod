@@ -75,6 +75,19 @@
     <Compile Include="HonorBoundNetProtocol.cs" />
     <Compile Include="HonorBoundPlayer.cs" />
     <Compile Include="HonorBoundWorld.cs" />
+    <Compile Include="Honorifics\Procrastinator.cs" />
+    <Compile Include="Honorifics\Completionist.cs" />
+    <Compile Include="Honorifics\Strategist.cs" />
+    <Compile Include="Honorifics\Expedient.cs" />
+    <Compile Include="Honorifics\Generous.cs" />
+    <Compile Include="Honorifics\Resourceful.cs" />
+    <Compile Include="Honorifics\Honorable.cs" />
+    <Compile Include="Honorifics\Efficient.cs" />
+    <Compile Include="Honorifics\Nimble.cs" />
+    <Compile Include="Honorifics\Survivor.cs" />
+    <Compile Include="Honorifics\Brave.cs" />
+    <Compile Include="Honorifics\Duelist.cs" />
+    <Compile Include="Honorifics\Cautious.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HonorBoundUI.cs" />
   </ItemGroup>
@@ -82,6 +95,7 @@
     <Content Include="build.txt" />
     <Content Include="description.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"C:\Program Files\Steam\steamapps\common\Terraria\tModLoaderServer.exe" -build "$(ProjectDir)\" -eac "$(TargetPath)"</PostBuildEvent>

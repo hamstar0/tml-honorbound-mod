@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -63,13 +64,19 @@ namespace HonorBound {
 			packet.Write( (byte)HonorBoundNetProtocolTypes.HonorSettingsFromClient );
 			packet.Write( (int)player.whoAmI );
 			packet.Write( (bool)mylogic.IsHonorBound );
-			packet.Write( (bool)mylogic.HasNoHonor );
+			packet.Write( (bool)mylogic.IsDishonorable );
 			packet.Write( (int)mylogic.CurrentActiveHonorifics.Count );
 			foreach( string honorific in mylogic.CurrentActiveHonorifics ) {
 				packet.Write( honorific );
 			}
 
 			packet.Send( -1 );
+
+			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+				ErrorLogger.Log( "SendHonorSettingsFromClient - IsHonorBound:" + mylogic.IsHonorBound +
+					" IsDishonorable:" + mylogic.IsDishonorable +
+					" CurrentActiveHonorifics:" + String.Join( ",", mylogic.CurrentActiveHonorifics ) );
+			}
 		}
 
 		////////////////////////////////
@@ -96,13 +103,19 @@ namespace HonorBound {
 
 			packet.Write( (byte)HonorBoundNetProtocolTypes.HonorSettingsFromServer );
 			packet.Write( (bool)mylogic.IsHonorBound );
-			packet.Write( (bool)mylogic.HasNoHonor );
+			packet.Write( (bool)mylogic.IsDishonorable );
 			packet.Write( (int)mylogic.CurrentActiveHonorifics.Count );
 			foreach( string honorific in mylogic.CurrentActiveHonorifics ) {
 				packet.Write( honorific );
 			}
 
 			packet.Send( (int)player.whoAmI );
+
+			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+				ErrorLogger.Log( "SendHonorSettingsFromServer - IsHonorBound:" + mylogic.IsHonorBound +
+					" IsDishonorable:" + mylogic.IsDishonorable +
+					" CurrentActiveHonorifics:" + String.Join( ",", mylogic.CurrentActiveHonorifics ) );
+			}
 		}
 
 
@@ -129,8 +142,15 @@ namespace HonorBound {
 				honorifics.Add( reader.ReadString() );
 			}
 
+			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+				ErrorLogger.Log( "ReceiveHonorSettingsWithClient - is_honor_bound:" + is_honor_bound +
+					" has_no_honor:" + has_no_honor +
+					" num_honorifics: " + num_honorifics +
+					" honorifics:" + String.Join( ",", honorifics ) );
+			}
+
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
-			modworld.Logic.Load( mymod, is_honor_bound, has_no_honor, honorifics );
+			modworld.Logic = new HonorBoundLogic( mymod, is_honor_bound, has_no_honor, honorifics );
 		}
 
 		////////////////////////////////
@@ -159,7 +179,11 @@ namespace HonorBound {
 				ErrorLogger.Log( "HonorBoundNetProtocol.ReceiveSettingsRequestOnServer - Invalid player whoAmI. " + who );
 				return;
 			}
-			
+
+			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+				ErrorLogger.Log( "ReceiveHonorSettingsRequestWithServer - who:" + who );
+			}
+
 			HonorBoundNetProtocol.SendHonorSettingsFromServer( mymod, Main.player[who] );
 		}
 
@@ -181,15 +205,21 @@ namespace HonorBound {
 				return;
 			}
 
-			bool can_honor = true;
+			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+				ErrorLogger.Log( "ReceiveHonorSettingsWithServer - who_from: " + who_from +
+					" is_honor_bound:" + is_honor_bound +
+					" has_no_honor:" + has_no_honor +
+					" num_honorifics: " + num_honorifics +
+					" honorifics:" + String.Join( ",", honorifics ) );
+			}
+			
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
-			modworld.Logic.Load( mymod, is_honor_bound, has_no_honor, honorifics );
-
-			if( can_honor ) {
-				for( int i = 0; i < Main.player.Length; i++ ) {
-					if( Main.player[i] != null && Main.player[i].active && i != who_from ) {
-						HonorBoundNetProtocol.SendHonorSettingsFromServer( mymod, Main.player[i] );
-					}
+			modworld.Logic = new HonorBoundLogic( mymod, is_honor_bound, has_no_honor, honorifics );
+			
+			for( int i = 0; i < Main.player.Length; i++ ) {
+				Player player = Main.player[i];
+				if( player != null && player.active && i != who_from ) {
+					HonorBoundNetProtocol.SendHonorSettingsFromServer( mymod, player );
 				}
 			}
 		}

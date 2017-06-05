@@ -1,10 +1,14 @@
 v1.1
 -	Add honorific marquee display in multiplayer
 
-
+v1.0.1
+-	Implement 'Initial Load' concept
+	-	Implement initial load by checking world id
+	-	Generate a world id (guid) and pass to player
+-	Fix 'Procrastinator' skip default
+-	Use better honorific names (implement updating)
 v1
 -	Release!
-
 -	Create logo (appears in panel background)
 -	Remove lunatic options if lunatic gone
 -	Add broadcast for honorifics

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,35 +8,46 @@ using Terraria.ModLoader.IO;
 
 namespace HonorBound {
 	internal class HonorBoundWorld : ModWorld {
+		public string ID { get; private set; }
+		public bool HasCorrectID { get; private set; }  // Workaround for tml bug?
+
 		public HonorBoundLogic Logic;
 
 
 
 		public override void Initialize() {
-			this.Logic = new HonorBoundLogic();
+			this.ID = Guid.NewGuid().ToString( "D" );
+			this.HasCorrectID = false;
+			this.Logic = new HonorBoundLogic( (HonorBoundMod)this.mod, false, false, new HashSet<string>() );
 		}
 
 
-		public override void Load( TagCompound tags ) {
-			if( tags.ContainsKey("is_honor_bound") ) {
-				bool is_honor_bound = tags.GetBool( "is_honor_bound" );
-				bool has_no_honor = tags.GetBool( "has_no_honor" );
+		public override void Load( TagCompound tag ) {
+			if( tag.ContainsKey("is_honor_bound") ) {
+				string id = tag.GetString( "world_id" );
+				bool is_honor_bound = tag.GetBool( "is_honor_bound" );
+				bool has_no_honor = tag.GetBool( "has_no_honor" );
 				ISet<string> honorifics = new HashSet<string>();
 
 				foreach( string honorific in HonorBoundLogic.Honorifics.Keys ) {
-					if( tags.GetBool("has_" + honorific) ) {
+					if( tag.GetBool("has_" + honorific) ) {
 						honorifics.Add( honorific );
 					}
 				}
-				
-				this.Logic.Load( (HonorBoundMod)this.mod, is_honor_bound, has_no_honor, honorifics );
+
+				if( id != "" ) {
+					this.HasCorrectID = true;
+					this.ID = id;
+				}
+				this.Logic = new HonorBoundLogic( (HonorBoundMod)this.mod, is_honor_bound, has_no_honor, honorifics );
 			}
 		}
 
 		public override TagCompound Save() {
 			var tags = new TagCompound {
+				{ "world_id", this.ID },
 				{ "is_honor_bound", this.Logic.IsHonorBound},
-				{ "has_no_honor", this.Logic.HasNoHonor}
+				{ "has_no_honor", this.Logic.IsDishonorable}
 			};
 			foreach( string honorific in this.Logic.CurrentActiveHonorifics ) {
 				tags.Set( "has_" + honorific, true );
@@ -45,8 +57,11 @@ namespace HonorBound {
 
 
 		public override void NetSend( BinaryWriter writer ) {
+			writer.Write( (bool)this.HasCorrectID );
+			writer.Write( (string)this.ID );
+
 			writer.Write( (bool)this.Logic.IsHonorBound );
-			writer.Write( (bool)this.Logic.HasNoHonor );
+			writer.Write( (bool)this.Logic.IsDishonorable );
 			writer.Write( (int)this.Logic.CurrentActiveHonorifics.Count );
 			foreach( string honorific in this.Logic.CurrentActiveHonorifics ) {
 				writer.Write( honorific );
@@ -60,6 +75,8 @@ namespace HonorBound {
 
 			ISet<string> honorifics = new HashSet<string>();
 
+			bool is_correct_id = reader.ReadBoolean();
+			string id = reader.ReadString();
 			bool is_honor_bound = reader.ReadBoolean();
 			bool has_no_honor = reader.ReadBoolean();
 			int count = reader.ReadInt32();
@@ -67,8 +84,11 @@ namespace HonorBound {
 			for( int i=0; i<count; i++ ) {
 				honorifics.Add( reader.ReadString() );
 			}
-			
-			this.Logic.Load( mymod, is_honor_bound, has_no_honor, honorifics );
+
+			if( is_correct_id ) {
+				this.ID = id;
+				this.Logic = new HonorBoundLogic( mymod, is_honor_bound, has_no_honor, honorifics );
+			}
 		}
 	}
 }
