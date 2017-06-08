@@ -1,6 +1,6 @@
 ﻿using Capitalism;
 using Durability;
-using HamstarHelpers.DisplayHelpers;
+using HamstarHelpers.Utilities.Messages;
 using HonorBound.Honorifics;
 using Injury;
 using Lives;
@@ -43,13 +43,13 @@ namespace HonorBound {
 
 		public static IList<string> GetVersionIncompatibilityMessages() {
 			var list = new List<string>();
-			var dur_ver = new Version( 2, 3, 1 );
-			var inj_ver = new Version( 1, 9, 4 );
-			var liv_ver = new Version( 1, 5, 3 );
-			var sta_ver = new Version( 1, 4, 10 );
-			var cap_ver = new Version( 1, 3, 2 );
-			var lun_ver = new Version( 1, 2, 4 );
-			var lif_ver = new Version( 1, 0, 3 );
+			var dur_ver = new Version( 2, 3, 2 );
+			var inj_ver = new Version( 1, 9, 5 );
+			var liv_ver = new Version( 1, 5, 4 );
+			var sta_ver = new Version( 1, 4, 11 );
+			var cap_ver = new Version( 1, 3, 3 );
+			var lun_ver = new Version( 1, 2, 5 );
+			var lif_ver = new Version( 1, 0, 4 );
 
 			if( DurabilityMod.ConfigVersion != dur_ver ) {
 				list.Add( "Honor Bound requires Durability to be version " + dur_ver.ToString() );// + " or newer." );

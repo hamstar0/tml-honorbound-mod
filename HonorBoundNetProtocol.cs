@@ -15,7 +15,7 @@ namespace HonorBound {
 	}
 
 
-	public class HonorBoundNetProtocol {
+	public static class HonorBoundNetProtocol {
 		public static void RoutePacket( HonorBoundMod mymod, BinaryReader reader ) {
 			HonorBoundNetProtocolTypes protocol = (HonorBoundNetProtocolTypes)reader.ReadByte();
 

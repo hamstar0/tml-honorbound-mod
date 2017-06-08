@@ -1,5 +1,5 @@
-﻿using HamstarHelpers.UI;
-using HamstarHelpers.UIHelpers;
+﻿using HamstarHelpers.UIHelpers;
+using HamstarHelpers.Utilities.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
+
 namespace HonorBound {
 	public class HonorBoundPlayer : ModPlayer {
 		private ISet<string> BegunWorldIds;

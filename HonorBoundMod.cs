@@ -1,22 +1,22 @@
-﻿using HamstarHelpers.ConfigHelpers;
+﻿using HamstarHelpers.Utilities.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.UI;
 
 
 namespace HonorBound {
 	public class ConfigurationData {
 		public string VersionSinceUpdate = "";
 
-		public int DEBUGMODE = 0;	// +1: Info; +2: Reset
+		public int DEBUGMODE = 0;	// 1: Info; 2: Reset
 	}
 
 
 	public class HonorBoundMod : Mod {
-		public static readonly Version ConfigVersion = new Version( 1, 0, 1 );
+		public static readonly Version ConfigVersion = new Version( 1, 0, 2 );
 		public JsonConfig<ConfigurationData> Config { get; private set; }
 
 		public HonorBoundUI UI = null;
@@ -75,7 +75,7 @@ namespace HonorBound {
 
 		////////////////
 
-		public override void ModifyInterfaceLayers( List<MethodSequenceListItem> layers ) {
+		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			var my_world = this.GetModWorld<HonorBoundWorld>();
 			var my_logic = my_world.Logic;
 
@@ -84,7 +84,7 @@ namespace HonorBound {
 
 				int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Mouse Text" ) );
 				if( idx != -1 ) {
-					layers.Insert( idx, new MethodSequenceListItem( "HonorBound: Honorific Picker",
+					var interface_layer = new LegacyGameInterfaceLayer( "HonorBound: Honorific Picker",
 						delegate {
 							this.UI.RefreshAllowedOptions( my_logic );
 
@@ -101,9 +101,8 @@ namespace HonorBound {
 							this.UI.DrawToggler( Main.spriteBatch );
 
 							return true;
-						},
-						null )
-					);
+						} );
+					layers.Insert( idx, interface_layer );
 				}
 			}
 		}
