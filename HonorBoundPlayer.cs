@@ -46,6 +46,8 @@ namespace HonorBound {
 					Main.NewText( err, Color.Gray );
 				}
 
+				mymod.UI.ResetOptions();
+
 				this.HasEnteredWorld = true;
 			}
 		}

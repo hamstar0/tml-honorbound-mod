@@ -12,7 +12,7 @@ namespace HonorBound.Honorifics {
 			this.Name = "Duelist";
 			this.Descriptions = new string[] {
 				"Items use drains stamina.",
-				"Only " + sta_default.InitialStamina + " starting stamina (otherwise " + (sta_default.InitialStamina * 2) + ")."
+				"Only " + sta_default.InitialStamina + " starting stamina (originally " + (sta_default.InitialStamina * 2) + ")."
 			};
 		}
 
@@ -32,7 +32,7 @@ namespace HonorBound.Honorifics {
 			var sta_player = Main.LocalPlayer.GetModPlayer<StaminaPlayer>( sta_mod );
 
 			sta_mod.Config.Data.ItemUseRate = 0;
-			sta_mod.Config.Data.InitialStamina = 200;
+			sta_mod.Config.Data.InitialStamina = sta_default.InitialStamina * 2;
 		}
 
 		public override void BegunWorldOn( HonorBoundLogic logic ) {

@@ -159,6 +159,13 @@ namespace HonorBound {
 		}
 
 
+		public void ResetOptions() {
+			foreach( var option in this.Options.Values ) {
+				option.Selected = false;
+			}
+		}
+
+
 		////////////////
 
 		public void RefreshAllowedOptions( HonorBoundLogic logic ) {
