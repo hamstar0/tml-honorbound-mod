@@ -43,33 +43,33 @@ namespace HonorBound {
 
 		public static IList<string> GetVersionIncompatibilityMessages() {
 			var list = new List<string>();
-			var dur_ver = new Version( 2, 3, 2 );
-			var inj_ver = new Version( 1, 9, 5 );
-			var liv_ver = new Version( 1, 5, 4 );
-			var sta_ver = new Version( 1, 4, 11 );
-			var cap_ver = new Version( 1, 3, 3 );
-			var lun_ver = new Version( 1, 2, 5 );
-			var lif_ver = new Version( 1, 0, 4 );
+			var dur_ver = new Version( 2, 3 );
+			var inj_ver = new Version( 1, 9 );
+			var liv_ver = new Version( 1, 5 );
+			var sta_ver = new Version( 1, 4 );
+			var cap_ver = new Version( 1, 3 );
+			var lun_ver = new Version( 1, 2 );
+			var lif_ver = new Version( 1, 0 );
 
-			if( DurabilityMod.ConfigVersion != dur_ver ) {
+			if( DurabilityMod.ConfigVersion.Major != dur_ver.Major || DurabilityMod.ConfigVersion.Minor != dur_ver.Minor ) {
 				list.Add( "Honor Bound requires Durability to be version " + dur_ver.ToString() );// + " or newer." );
 			}
-			if( InjuryMod.ConfigVersion != inj_ver ) {
+			if( InjuryMod.ConfigVersion.Major != inj_ver.Major || InjuryMod.ConfigVersion.Minor != inj_ver.Minor ) {
 				list.Add( "Honor Bound requires Injury to be version " + inj_ver.ToString() );// + " or newer." );
 			}
-			if( LivesMod.ConfigVersion != liv_ver ) {
+			if( LivesMod.ConfigVersion.Major != liv_ver.Major || LivesMod.ConfigVersion.Minor != liv_ver.Minor ) {
 				list.Add( "Honor Bound requires Lives to be version " + liv_ver.ToString() );// + " or newer." );
 			}
-			if( StaminaMod.ConfigVersion != sta_ver ) {
+			if( StaminaMod.ConfigVersion.Major != sta_ver.Major || StaminaMod.ConfigVersion.Minor != sta_ver.Minor ) {
 				list.Add( "Honor Bound requires Stamina to be version " + sta_ver.ToString() );// + " or newer." );
 			}
-			if( CapitalismMod.ConfigVersion != cap_ver ) {
+			if( CapitalismMod.ConfigVersion.Major != cap_ver.Major || CapitalismMod.ConfigVersion.Minor != cap_ver.Minor ) {
 				list.Add( "Honor Bound requires Capitalism to be version " + cap_ver.ToString() );// + " or newer." );
 			}
-			if( TheLunaticMod.ConfigVersion != lun_ver ) {
+			if( TheLunaticMod.ConfigVersion.Major != lun_ver.Major || TheLunaticMod.ConfigVersion.Minor != lun_ver.Minor ) {
 				list.Add( "Honor Bound requires The Lunatic to be version " + lun_ver.ToString() );// + " or newer." );
 			}
-			if( LosingIsFunMod.ConfigVersion != lif_ver ) {
+			if( LosingIsFunMod.ConfigVersion.Major != lif_ver.Major || LosingIsFunMod.ConfigVersion.Minor != lif_ver.Minor ) {
 				list.Add( "Honor Bound requires Losing Is Fun to be version " + lif_ver.ToString() );// + " or newer." );
 			}
 
