@@ -87,7 +87,10 @@ namespace HonorBound {
 
 			if( is_correct_id ) {
 				this.ID = id;
+				this.HasCorrectID = is_correct_id;
 				this.Logic = new HonorBoundLogic( mymod, is_honor_bound, has_no_honor, honorifics );
+
+				modplayer.OnEnterWorldIfSynced();
 			}
 		}
 	}

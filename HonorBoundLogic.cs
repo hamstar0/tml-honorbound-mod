@@ -109,6 +109,8 @@ namespace HonorBound {
 		public bool IsDishonorable { get; private set; }
 		public bool NotPlayingLunatic { get; private set; }
 
+		public bool IsGameModeBegun { get; private set; }
+
 
 
 		internal HonorBoundLogic( HonorBoundMod mymod, bool is_honor_bound, bool has_no_honor, ISet<string> honorifics ) {
@@ -116,10 +118,6 @@ namespace HonorBound {
 			
 			foreach( var kv in HonorBoundLogic.Honorifics ) {
 				this.HonorificAllowed[ kv.Key ] = true;
-			}
-
-			if( this.HasBegun() ) {
-				throw new Exception("Invalid attempt to reset honorifics.");
 			}
 
 			if( !mods_up_to_date || (mymod.Config.Data.DEBUGMODE & 2) != 0 ) {
@@ -131,8 +129,8 @@ namespace HonorBound {
 				this.IsDishonorable = has_no_honor;
 				this.CurrentActiveHonorifics = honorifics;
 
-				if( mymod.NeedsUpdate ) {
-					mymod.NeedsUpdate = false;
+				if( mymod.NeedsUpdateBecauseNewModVersion ) {
+					mymod.NeedsUpdateBecauseNewModVersion = false;
 
 					if( this.CurrentActiveHonorifics.Remove( "Prudent" ) ) {
 						this.CurrentActiveHonorifics.Add( "Cautious" );
@@ -143,13 +141,9 @@ namespace HonorBound {
 				}
 
 				this.RefreshAllowedHonorifics();
-				
-				if( is_honor_bound ) {
-					this.ForHonor( mymod );
-				} else if( has_no_honor ) {
-					this.NoHonor( mymod );
-				}
 			}
+
+			this.IsGameModeBegun = false;
 		}
 
 
@@ -170,10 +164,6 @@ namespace HonorBound {
 
 		////////////////
 
-		public bool HasBegun() {
-			return this.IsHonorBound || this.IsDishonorable;
-		}
-
 		internal void EnableMods( bool enable ) {
 			var dur_mod = (DurabilityMod)ModLoader.GetMod( "Durability" );
 			var inj_mod = (InjuryMod)ModLoader.GetMod( "Injury" );
@@ -192,20 +182,45 @@ namespace HonorBound {
 			lif_mod.Config.Data.Enabled = enable;
 		}
 
-		internal void ForHonor( HonorBoundMod mymod ) {
+
+
+		////////////////
+		
+		internal void BeginGameModeForLocalPlayer( HonorBoundMod mymod ) {
+			if( this.IsGameModeBegun ) { throw new Exception( "BeginGameModeForLocalPlayer() - Already begun." ); }
+
+			if( this.IsHonorBound ) {
+				this.ApplyHonorifics( mymod );
+			} else if( this.IsDishonorable ) {
+				this.ApplyDishonorability( mymod );
+			}
+			this.IsGameModeBegun = true;
+		}
+
+		internal void ForHonor() {
+			if( this.IsGameModeBegun ) { throw new Exception( "ForHonor() - Already begun." ); }
+			this.IsHonorBound = true;
+		}
+
+		internal void NoHonor() {
+			if( this.IsGameModeBegun ) { throw new Exception( "NoHonor() - Already begun." ); }
+			this.IsDishonorable = true;
+		}
+
+		////////////////
+
+		private void ApplyHonorifics( HonorBoundMod mymod ) {
 			var skipped = HonorBoundLogic.Honorifics.Keys.Where( x => !this.CurrentActiveHonorifics.Contains( x ) );
 
 			this.EnableMods( true );
 
 			foreach( string honorific in this.CurrentActiveHonorifics ) {
-				HonorBoundLogic.Honorifics[ honorific ].LoadOn( this );
+				HonorBoundLogic.Honorifics[honorific].LoadOn( this );
 			}
 			foreach( string honorific in skipped ) {
-				HonorBoundLogic.Honorifics[ honorific ].LoadOff( this );
+				HonorBoundLogic.Honorifics[honorific].LoadOff( this );
 			}
 
-			this.IsHonorBound = true;
-			
 			foreach( string honorific in this.CurrentActiveHonorifics ) {
 				HonorBoundLogic.Honorifics[honorific].PostLoadOn( this );
 			}
@@ -214,41 +229,34 @@ namespace HonorBound {
 			}
 
 			if( Main.netMode != 2 ) {   // Not server
-				try {
-					var player = Main.LocalPlayer;
-					var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
+				var player = Main.LocalPlayer;
+				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
 
-					if( !modplayer.HasBegunCurrentWorld() ) {
-						foreach( string honorific in this.CurrentActiveHonorifics ) {
-							HonorBoundLogic.Honorifics[honorific].BegunWorldOn( this );
-						}
-						foreach( string honorific in skipped ) {
-							HonorBoundLogic.Honorifics[honorific].BegunWorldOff( this );
-						}
-
-						modplayer.Begin();
+				if( !modplayer.HasBegunCurrentWorld() ) {
+					foreach( string honorific in this.CurrentActiveHonorifics ) {
+						HonorBoundLogic.Honorifics[honorific].BegunWorldOn( this );
 					}
-				} catch( Exception e ) { }
+					foreach( string honorific in skipped ) {
+						HonorBoundLogic.Honorifics[honorific].BegunWorldOff( this );
+					}
+
+					modplayer.Begin();
+				}
 			}
 
 			this.AnnounceHonorifics();
 		}
 
-
-		internal void NoHonor( HonorBoundMod mymod ) {
+		private void ApplyDishonorability( HonorBoundMod mymod ) {
 			this.EnableMods( false );
 
-			this.IsDishonorable = true;
-
 			if( Main.netMode != 2 ) {   // Not server
-				try {
-					var player = Main.LocalPlayer;
-					var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
+				var player = Main.LocalPlayer;
+				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
 
-					if( !modplayer.HasBegunCurrentWorld() ) {
-						modplayer.Begin();
-					}
-				} catch( Exception e ) { }
+				if( !modplayer.HasBegunCurrentWorld() ) {
+					modplayer.Begin();
+				}
 			}
 
 			this.AnnounceDishonorable();

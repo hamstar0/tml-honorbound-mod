@@ -18,7 +18,7 @@ namespace HonorBound {
 			this.BegunWorldIds = new HashSet<string>();
 			this.HasEnteredWorld = false;
 		}
-
+		
 		public override void clientClone( ModPlayer clone ) {
 			base.clientClone( clone );
 
@@ -49,6 +49,20 @@ namespace HonorBound {
 				mymod.UI.ResetOptions();
 
 				this.HasEnteredWorld = true;
+				this.OnEnterWorldIfSynced();
+			}
+		}
+
+		public void OnEnterWorldIfSynced() {
+			if( !this.HasEnteredWorld ) { return; }
+
+			var mymod = (HonorBoundMod)this.mod;
+			var modworld = mymod.GetModWorld<HonorBoundWorld>();
+
+			if( Main.netMode == 0 ) {   // Single
+				modworld.Logic.BeginGameModeForLocalPlayer( mymod );
+			} else if( Main.netMode == 1 && modworld.HasCorrectID ) {   // Client
+				modworld.Logic.BeginGameModeForLocalPlayer( mymod );
 			}
 		}
 
@@ -59,8 +73,8 @@ namespace HonorBound {
 				this.BegunWorldIds = new HashSet<string>();
 
 				int count = tags.GetInt( "begun_worlds_count" );
-				for( int i=0; i<count; i++ ) {
-					this.BegunWorldIds.Add( tags.GetString("begun_world_id_"+i) );
+				for( int i = 0; i < count; i++ ) {
+					this.BegunWorldIds.Add( tags.GetString( "begun_world_id_" + i ) );
 				}
 			}
 		}
@@ -83,7 +97,7 @@ namespace HonorBound {
 			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
 			if( !modworld.HasCorrectID ) { throw new Exception("Cannot check if game is running for player without world loaded."); }
 			if( !this.HasEnteredWorld ) { throw new Exception( "Cannot check if game is running for player if player hasn't joined game." ); }
-
+			
 			return this.BegunWorldIds.Contains( modworld.ID );
 		}
 

@@ -255,26 +255,24 @@ namespace HonorBound {
 		private void ActivateForHonor( HonorBoundMod mymod ) {
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
+			
+			mylogic.ForHonor();
+			mylogic.BeginGameModeForLocalPlayer( mymod );
 
-			if( !mylogic.HasBegun() ) {
-				mylogic.ForHonor( mymod );
-
-				if( Main.netMode == 1 ) {   // Client
-					HonorBoundNetProtocol.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
-				}
+			if( Main.netMode == 1 ) {   // Client
+				HonorBoundNetProtocol.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
 			}
 		}
 
 		private void ActivateNoHonor( HonorBoundMod mymod ) {
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
+			
+			mylogic.NoHonor();
+			mylogic.BeginGameModeForLocalPlayer( mymod );
 
-			if( !mylogic.HasBegun() ) {
-				mylogic.NoHonor( mymod );
-
-				if( Main.netMode == 1 ) {   // Client
-					HonorBoundNetProtocol.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
-				}
+			if( Main.netMode == 1 ) {   // Client
+				HonorBoundNetProtocol.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
 			}
 		}
 	}

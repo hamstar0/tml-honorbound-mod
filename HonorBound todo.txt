@@ -1,6 +1,12 @@
 v1.1
 -	Add honorific marquee display in multiplayer
+v1.0.3
+-	When a world is 'honor bound', require players commit exclusively or leave
+	-	...
+	-	Revise code to apply a single world for a given player
 
+v1.0.2
+-	Fix multi world settings init fail
 v1.0.1
 -	Implement 'Initial Load' concept
 	-	Implement initial load by checking world id

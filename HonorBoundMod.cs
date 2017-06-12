@@ -23,7 +23,7 @@ namespace HonorBound {
 		private int LastSeenScreenWidth = -1;
 		private int LastSeenScreenHeight = -1;
 
-		internal bool NeedsUpdate = false;
+		internal bool NeedsUpdateBecauseNewModVersion = false;
 		
 
 
@@ -48,7 +48,7 @@ namespace HonorBound {
 
 				if( vers_since < HonorBoundMod.ConfigVersion ) {
 					ErrorLogger.Log( "Honor Bound config updated to " + HonorBoundMod.ConfigVersion.ToString() );
-					this.NeedsUpdate = true;
+					this.NeedsUpdateBecauseNewModVersion = true;
 
 					this.Config.Data.VersionSinceUpdate = HonorBoundMod.ConfigVersion.ToString();
 					this.Config.SaveFile();
@@ -79,7 +79,7 @@ namespace HonorBound {
 			var my_world = this.GetModWorld<HonorBoundWorld>();
 			var my_logic = my_world.Logic;
 
-			if( !my_logic.HasBegun() ) {
+			if( !my_logic.IsGameModeBegun ) {
 				my_logic.RefreshAllowedHonorifics();
 
 				int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Mouse Text" ) );
