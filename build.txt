@@ -1,5 +1,5 @@
 author = hamstar
-version = 1.0.2.3
+version = 1.0.3
 displayName = Honor Bound
 modReferences = HamstarHelpers, Durability, Injury, Lives, Stamina, Capitalism, TheLunatic, LosingIsFun
 buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*, .git\*

@@ -2,7 +2,11 @@ v1.1
 -	Add honorific marquee display in multiplayer
 v1.0.3
 -	When a world is 'honor bound', require players commit exclusively or leave
-	-	...
+	-	If player is not honor bound, prompt them
+		-	Invoke prompt
+		-	Implement prompt
+	-	If player has visited a 'dishonorable' world, debuff them
+	-	If player is honor bound elsewhere, debuff them
 	-	Revise code to apply a single world for a given player
 
 v1.0.2

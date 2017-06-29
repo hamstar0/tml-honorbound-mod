@@ -43,7 +43,7 @@ namespace HonorBound {
 
 		public static IList<string> GetVersionIncompatibilityMessages() {
 			var list = new List<string>();
-			var dur_ver = new Version( 2, 3 );
+			var dur_ver = new Version( 2, 4 );
 			var inj_ver = new Version( 1, 9 );
 			var liv_ver = new Version( 1, 5 );
 			var sta_ver = new Version( 1, 4 );
@@ -51,7 +51,7 @@ namespace HonorBound {
 			var lun_ver = new Version( 1, 2 );
 			var lif_ver = new Version( 1, 0 );
 
-			if( DurabilityMod.ConfigVersion.Major != dur_ver.Major || DurabilityMod.ConfigVersion.Minor != dur_ver.Minor ) {
+			if( Durability.ConfigurationData.CurrentVersion.Major != dur_ver.Major || Durability.ConfigurationData.CurrentVersion.Minor != dur_ver.Minor ) {
 				list.Add( "Honor Bound requires Durability to be version " + dur_ver.ToString() );// + " or newer." );
 			}
 			if( InjuryMod.ConfigVersion.Major != inj_ver.Major || InjuryMod.ConfigVersion.Minor != inj_ver.Minor ) {
