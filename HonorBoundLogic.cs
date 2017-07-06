@@ -49,7 +49,7 @@ namespace HonorBound {
 			var sta_ver = new Version( 1, 4 );
 			var cap_ver = new Version( 1, 3 );
 			var lun_ver = new Version( 1, 2 );
-			var lif_ver = new Version( 1, 0 );
+			var lif_ver = new Version( 1, 1 );
 
 			if( Durability.ConfigurationData.CurrentVersion.Major != dur_ver.Major || Durability.ConfigurationData.CurrentVersion.Minor != dur_ver.Minor ) {
 				list.Add( "Honor Bound requires Durability to be version " + dur_ver.ToString() );// + " or newer." );
@@ -69,7 +69,7 @@ namespace HonorBound {
 			if( TheLunaticMod.ConfigVersion.Major != lun_ver.Major || TheLunaticMod.ConfigVersion.Minor != lun_ver.Minor ) {
 				list.Add( "Honor Bound requires The Lunatic to be version " + lun_ver.ToString() );// + " or newer." );
 			}
-			if( LosingIsFunMod.ConfigVersion.Major != lif_ver.Major || LosingIsFunMod.ConfigVersion.Minor != lif_ver.Minor ) {
+			if( LosingIsFun.ConfigurationData.CurrentVersion.Major != lif_ver.Major || LosingIsFun.ConfigurationData.CurrentVersion.Minor != lif_ver.Minor ) {
 				list.Add( "Honor Bound requires Losing Is Fun to be version " + lif_ver.ToString() );// + " or newer." );
 			}
 
