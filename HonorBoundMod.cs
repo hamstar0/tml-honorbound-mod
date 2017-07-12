@@ -78,7 +78,7 @@ namespace HonorBound {
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			var my_world = this.GetModWorld<HonorBoundWorld>();
 			var my_logic = my_world.Logic;
-
+			
 			if( !my_logic.IsGameModeBegun ) {
 				my_logic.RefreshAllowedHonorifics();
 

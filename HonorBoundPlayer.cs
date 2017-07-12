@@ -59,10 +59,12 @@ namespace HonorBound {
 			var mymod = (HonorBoundMod)this.mod;
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 
-			if( Main.netMode == 0 ) {   // Single
-				modworld.Logic.BeginGameModeForLocalPlayer( mymod );
-			} else if( Main.netMode == 1 && modworld.HasCorrectID ) {   // Client
-				modworld.Logic.BeginGameModeForLocalPlayer( mymod );
+			if( modworld.Logic.IsHonorBound || modworld.Logic.IsDishonorable ) {
+				if( Main.netMode == 0 ) {   // Single
+					modworld.Logic.BeginGameModeForLocalPlayer( mymod );
+				} else if( Main.netMode == 1 && modworld.HasCorrectID ) {   // Client
+					modworld.Logic.BeginGameModeForLocalPlayer( mymod );
+				}
 			}
 		}
 
