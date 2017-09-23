@@ -1,11 +1,10 @@
-﻿using Terraria.ModLoader;
-using TheLunatic;
+﻿using TheLunatic;
 
 
 namespace HonorBound.Honorifics {
 	class ExpedientHonorificEntry : HonorificEntry {
 		public ExpedientHonorificEntry() {
-			var lun_default = new TheLunatic.ConfigurationData();
+			var lun_default = new LunaticConfigData();
 
 			this.Name = "Expedient";
 			this.Descriptions = new string[] {
@@ -15,16 +14,16 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
+			var config = LunaticConfigData.GetCurrent();
 
-			lun_mod.Config.Data.HalfDaysRecoveredPerMask = 2;
+			config.HalfDaysRecoveredPerMask = 2;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
-			var lun_default = new TheLunatic.ConfigurationData();
+			var config = LunaticConfigData.GetCurrent();
+			var lun_default = new LunaticConfigData();
 
-			lun_mod.Config.Data.HalfDaysRecoveredPerMask = lun_default.HalfDaysRecoveredPerMask;
+			config.HalfDaysRecoveredPerMask = lun_default.HalfDaysRecoveredPerMask;
 		}
 	}
 }

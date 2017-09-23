@@ -52,25 +52,25 @@ namespace HonorBound {
 			var lif_ver = new Version( 1, 1 );
 
 			if( Durability.ConfigurationData.CurrentVersion.Major != dur_ver.Major || Durability.ConfigurationData.CurrentVersion.Minor != dur_ver.Minor ) {
-				list.Add( "Honor Bound requires Durability to be version " + dur_ver.ToString() );// + " or newer." );
+				list.Add( "Honor Bound requires Durability to be at least version " + dur_ver.ToString() );// + " or newer." );
 			}
 			if( InjuryMod.ConfigVersion.Major != inj_ver.Major || InjuryMod.ConfigVersion.Minor != inj_ver.Minor ) {
-				list.Add( "Honor Bound requires Injury to be version " + inj_ver.ToString() );// + " or newer." );
+				list.Add( "Honor Bound requires Injury to be at least version " + inj_ver.ToString() );// + " or newer." );
 			}
 			if( LivesMod.ConfigVersion.Major != liv_ver.Major || LivesMod.ConfigVersion.Minor != liv_ver.Minor ) {
-				list.Add( "Honor Bound requires Lives to be version " + liv_ver.ToString() );// + " or newer." );
+				list.Add( "Honor Bound requires Lives to be at least version " + liv_ver.ToString() );// + " or newer." );
 			}
 			if( StaminaMod.ConfigVersion.Major != sta_ver.Major || StaminaMod.ConfigVersion.Minor != sta_ver.Minor ) {
-				list.Add( "Honor Bound requires Stamina to be version " + sta_ver.ToString() );// + " or newer." );
+				list.Add( "Honor Bound requires Stamina to be at least version " + sta_ver.ToString() );// + " or newer." );
 			}
 			if( CapitalismMod.ConfigVersion.Major != cap_ver.Major || CapitalismMod.ConfigVersion.Minor != cap_ver.Minor ) {
-				list.Add( "Honor Bound requires Capitalism to be version " + cap_ver.ToString() );// + " or newer." );
+				list.Add( "Honor Bound requires Capitalism to be at least version " + cap_ver.ToString() );// + " or newer." );
 			}
-			if( TheLunaticMod.ConfigVersion.Major != lun_ver.Major || TheLunaticMod.ConfigVersion.Minor != lun_ver.Minor ) {
-				list.Add( "Honor Bound requires The Lunatic to be version " + lun_ver.ToString() );// + " or newer." );
+			if( LunaticConfigData.CurrentVersion.Major != lun_ver.Major || LunaticConfigData.CurrentVersion.Minor != lun_ver.Minor ) {
+				list.Add( "Honor Bound requires The Lunatic to be at least version " + lun_ver.ToString() );// + " or newer." );
 			}
 			if( LosingIsFun.ConfigurationData.CurrentVersion.Major != lif_ver.Major || LosingIsFun.ConfigurationData.CurrentVersion.Minor != lif_ver.Minor ) {
-				list.Add( "Honor Bound requires Losing Is Fun to be version " + lif_ver.ToString() );// + " or newer." );
+				list.Add( "Honor Bound requires Losing Is Fun to be at least version " + lif_ver.ToString() );// + " or newer." );
 			}
 
 			return list;
@@ -120,7 +120,7 @@ namespace HonorBound {
 				this.HonorificAllowed[ kv.Key ] = true;
 			}
 
-			if( !mods_up_to_date || (mymod.Config.Data.DEBUGMODE & 2) != 0 ) {
+			if( !mods_up_to_date || mymod.Config.Data.IsDebugReset() ) {
 				this.IsHonorBound = false;
 				this.IsDishonorable = false;
 				this.CurrentActiveHonorifics = new HashSet<string>();
@@ -150,10 +150,7 @@ namespace HonorBound {
 		////////////////
 		
 		public void RefreshAllowedHonorifics() {
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
-			var lun_world = lun_mod.GetModWorld<TheLunaticWorld>();
-
-			if( lun_world.GameLogic.HasGameEnded && !this.NotPlayingLunatic ) {
+			if( LunaticInterface.HasCurrentGameEnded() && !this.NotPlayingLunatic ) {
 				this.NotPlayingLunatic = true;
 				HonorBoundLogic.Honorifics[ "Expedient" ].NotAllowed( this );
 				HonorBoundLogic.Honorifics[ "Strategist" ].NotAllowed( this );
@@ -170,7 +167,6 @@ namespace HonorBound {
 			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
 			var sta_mod = (StaminaMod)ModLoader.GetMod( "Stamina" );
 			var cap_mod = (CapitalismMod)ModLoader.GetMod( "Capitalism" );
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
 			var lif_mod = (LosingIsFunMod)ModLoader.GetMod( "LosingIsFun" );
 
 			dur_mod.Config.Data.Enabled = enable;
@@ -178,7 +174,7 @@ namespace HonorBound {
 			liv_mod.Config.Data.Enabled = enable;
 			sta_mod.Config.Data.Enabled = enable;
 			cap_mod.Config.Data.Enabled = enable;
-			lun_mod.Config.Data.Enabled = enable;
+			LunaticConfigData.GetCurrent().Enabled = enable;
 			lif_mod.Config.Data.Enabled = enable;
 		}
 

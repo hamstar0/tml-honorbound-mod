@@ -1,5 +1,6 @@
-﻿using HamstarHelpers.UIHelpers;
+﻿using HamstarHelpers.HudHelpers;
 using HamstarHelpers.Utilities.UI;
+using HonorBound.NetProtocol;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -225,7 +226,7 @@ namespace HonorBound {
 			if( this.IsTogglerLit ) { body_color = HonorBoundUI.ButtonBodyLitColor; }
 			this.GetTogglerDimensions( out pos, out size );
 			
-			UIHelpers.DrawBorderedRect( sb, body_color, edge_color, pos, size, 2 );
+			HudHelpers.DrawBorderedRect( sb, body_color, edge_color, pos, size, 2 );
 		}
 		
 		public void CheckTogglerMouseInteraction() {
@@ -260,7 +261,7 @@ namespace HonorBound {
 			mylogic.BeginGameModeForLocalPlayer( mymod );
 
 			if( Main.netMode == 1 ) {   // Client
-				HonorBoundNetProtocol.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
+				ClientPacketHandlers.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
 			}
 		}
 
@@ -272,7 +273,7 @@ namespace HonorBound {
 			mylogic.BeginGameModeForLocalPlayer( mymod );
 
 			if( Main.netMode == 1 ) {   // Client
-				HonorBoundNetProtocol.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
+				ClientPacketHandlers.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
 			}
 		}
 	}

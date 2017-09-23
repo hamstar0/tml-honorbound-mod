@@ -14,10 +14,10 @@ namespace HonorBound.Honorifics {
 
 
 		public override void PostLoadOn( HonorBoundLogic logic ) {
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
+			var config = LunaticConfigData.GetCurrent();
 
-			lun_mod.Config.Data.DaysUntil *= 5;
-			lun_mod.Config.Data.HalfDaysRecoveredPerMask *= 5;
+			config.DaysUntil *= 5;
+			config.HalfDaysRecoveredPerMask *= 5;
 		}
 	}
 }

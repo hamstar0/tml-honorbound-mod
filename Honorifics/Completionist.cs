@@ -13,15 +13,15 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
+			var config = LunaticConfigData.GetCurrent();
 
-			lun_mod.Config.Data.MoonLordMaskWins = false;
+			config.MoonLordMaskWins = false;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
+			var config = LunaticConfigData.GetCurrent();
 
-			lun_mod.Config.Data.MoonLordMaskWins = true;
+			config.MoonLordMaskWins = true;
 		}
 	}
 }

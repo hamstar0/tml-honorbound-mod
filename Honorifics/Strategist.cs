@@ -1,11 +1,10 @@
-﻿using Terraria.ModLoader;
-using TheLunatic;
+﻿using TheLunatic;
 
 
 namespace HonorBound.Honorifics {
 	class StrategistHonorificEntry : HonorificEntry {
 		public StrategistHonorificEntry() {
-			var lun_default = new TheLunatic.ConfigurationData();
+			var lun_default = new LunaticConfigData();
 			float wof_time = lun_default.WallOfFleshMultiplier * ((float)lun_default.HalfDaysRecoveredPerMask / 2f);
 			float time = lun_default.DaysUntil;
 
@@ -18,19 +17,19 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
-			var lun_default = new TheLunatic.ConfigurationData();
+			var config = LunaticConfigData.GetCurrent();
+			var lun_default = new LunaticConfigData();
 
-			lun_mod.Config.Data.WallOfFleshMultiplier = lun_default.WallOfFleshMultiplier / 2f;
-			lun_mod.Config.Data.DaysUntil = lun_default.DaysUntil / 2;
+			config.WallOfFleshMultiplier = lun_default.WallOfFleshMultiplier / 2f;
+			config.DaysUntil = lun_default.DaysUntil / 2;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lun_mod = (TheLunaticMod)ModLoader.GetMod( "TheLunatic" );
-			var lun_default = new TheLunatic.ConfigurationData();
+			var config = LunaticConfigData.GetCurrent();
+			var lun_default = new LunaticConfigData();
 
-			lun_mod.Config.Data.WallOfFleshMultiplier = lun_default.WallOfFleshMultiplier;
-			lun_mod.Config.Data.DaysUntil = lun_default.DaysUntil;
+			config.WallOfFleshMultiplier = lun_default.WallOfFleshMultiplier;
+			config.DaysUntil = lun_default.DaysUntil;
 		}
 	}
 }
