@@ -59,6 +59,11 @@ namespace HonorBound {
 			var mymod = (HonorBoundMod)this.mod;
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 
+			if( !mymod.IsEnabled() ) {
+				Main.NewText( "Honor Bound disabled (if unexpected, see log.txt for information).", Color.Gray );
+				return;
+			}
+
 			if( modworld.Logic.IsHonorBound || modworld.Logic.IsDishonorable ) {
 				if( Main.netMode == 0 ) {   // Single
 					modworld.Logic.BeginGameModeForLocalPlayer( mymod );

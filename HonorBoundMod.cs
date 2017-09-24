@@ -69,6 +69,8 @@ namespace HonorBound {
 			if( !Main.dedServ ) {
 				this.UI.PostSetupContent();
 			}
+			
+			this.Config.Data.Enabled = this.IsEnabled() && HonorBoundLogic.GetVersionIncompatibilityMessages().Count == 0;
 		}
 
 
@@ -85,6 +87,8 @@ namespace HonorBound {
 		////////////////
 
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
+			if( !this.IsEnabled() ) { return; }
+
 			var my_world = this.GetModWorld<HonorBoundWorld>();
 			var my_logic = my_world.Logic;
 			
@@ -114,6 +118,13 @@ namespace HonorBound {
 					layers.Insert( idx, interface_layer );
 				}
 			}
+		}
+
+
+		////////////////
+
+		public bool IsEnabled() {
+			return this.Config.Data.Enabled;
 		}
 	}
 }

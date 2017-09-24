@@ -1,5 +1,6 @@
 ﻿using Capitalism;
 using Durability;
+using HamstarHelpers.DebugHelpers;
 using HamstarHelpers.Utilities.Messages;
 using HonorBound.Honorifics;
 using Injury;
@@ -80,20 +81,25 @@ namespace HonorBound {
 		static HonorBoundLogic() {
 			bool up_to_date = HonorBoundLogic.GetVersionIncompatibilityMessages().Count == 0;
 			if( !up_to_date ) { return; }
-			
-			HonorBoundLogic.DefineHonorific( new DuelistHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new CautiousHonorificEntry() );    // was 'Prudent'
-			HonorBoundLogic.DefineHonorific( new BraveHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new SurvivorHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new HonorableHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new NimbleHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new EfficientHonorificEntry() );   // was 'Frugal'
-			HonorBoundLogic.DefineHonorific( new ResourcefulHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new GenerousHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new ExpedientHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new StrategistHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new CompletionistHonorificEntry() );
-			HonorBoundLogic.DefineHonorific( new ProcrastinatorHonorificEntry() );
+
+			try {
+				HonorBoundLogic.DefineHonorific( new DuelistHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new CautiousHonorificEntry() );    // was 'Prudent'
+				HonorBoundLogic.DefineHonorific( new BraveHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new SurvivorHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new HonorableHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new NimbleHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new EfficientHonorificEntry() );   // was 'Frugal'
+				HonorBoundLogic.DefineHonorific( new ResourcefulHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new GenerousHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new ExpedientHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new StrategistHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new CompletionistHonorificEntry() );
+				HonorBoundLogic.DefineHonorific( new ProcrastinatorHonorificEntry() );
+			} catch( Exception e ) {
+				DebugHelpers.Log( e.ToString() );
+				throw e;
+			}
 		}
 		
 		private static void DefineHonorific( HonorificEntry entry ) {
