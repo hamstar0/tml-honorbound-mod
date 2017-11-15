@@ -1,13 +1,11 @@
 ﻿using Stamina;
 using Terraria;
-using Terraria.ModLoader;
 
 
 namespace HonorBound.Honorifics {
 	class DuelistHonorificEntry : HonorificEntry {
 		public DuelistHonorificEntry() {
-			var sta_mod = (StaminaMod)ModLoader.GetMod( "Stamina" );
-			var sta_default = new Stamina.ConfigurationData();
+			var sta_default = new StaminaConfigData();
 
 			this.Name = "Duelist";
 			this.Descriptions = new string[] {
@@ -18,37 +16,36 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var sta_mod = (StaminaMod)ModLoader.GetMod( "Stamina" );
-			var sta_default = new Stamina.ConfigurationData();
-			var sta_player = Main.LocalPlayer.GetModPlayer<StaminaPlayer>( sta_mod );
+			var sta_config = StaminaAPI.GetModSettings();
+			var sta_default = new StaminaConfigData();
 
-			sta_mod.Config.Data.ItemUseRate = sta_default.ItemUseRate;
-			sta_mod.Config.Data.InitialStamina = sta_default.InitialStamina;
+			sta_config.ItemUseRate = sta_default.ItemUseRate;
+			sta_config.InitialStamina = sta_default.InitialStamina;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var sta_mod = (StaminaMod)ModLoader.GetMod( "Stamina" );
-			var sta_default = new Stamina.ConfigurationData();
-			var sta_player = Main.LocalPlayer.GetModPlayer<StaminaPlayer>( sta_mod );
+			var sta_config = StaminaAPI.GetModSettings();
+			var sta_default = new StaminaConfigData();
 
-			sta_mod.Config.Data.ItemUseRate = 0;
-			sta_mod.Config.Data.InitialStamina = sta_default.InitialStamina * 2;
+			sta_config.ItemUseRate = 0;
+			sta_config.InitialStamina = sta_default.InitialStamina * 2;
 		}
 
 		public override void BegunWorldOn( HonorBoundLogic logic ) {
-			var sta_mod = (StaminaMod)ModLoader.GetMod( "Stamina" );
-			var sta_default = new Stamina.ConfigurationData();
-			var sta_player = Main.LocalPlayer.GetModPlayer<StaminaPlayer>( sta_mod );
+			if( Main.netMode != 2 ) {
+				var sta_config = StaminaAPI.GetModSettings();
+				var sta_default = new StaminaConfigData();
 
-			sta_player.AddStamina( sta_default.InitialStamina - sta_player.GetStamina() );
+				StaminaAPI.AddStamina( Main.LocalPlayer, sta_default.InitialStamina - StaminaAPI.GetStamina( Main.LocalPlayer ) );
+			}
 		}
 
 		public override void BegunWorldOff( HonorBoundLogic logic ) {
-			var sta_mod = (StaminaMod)ModLoader.GetMod( "Stamina" );
-			var sta_default = new Stamina.ConfigurationData();
-			var sta_player = Main.LocalPlayer.GetModPlayer<StaminaPlayer>( sta_mod );
+			if( Main.netMode != 2 ) {
+				var sta_default = new StaminaConfigData();
 
-			sta_player.AddStamina( (sta_default.InitialStamina * 2) - sta_player.GetStamina() );
+				StaminaAPI.AddStamina( Main.LocalPlayer, ( sta_default.InitialStamina * 2) - StaminaAPI.GetStamina( Main.LocalPlayer ) );
+			}
 		}
 	}
 }

@@ -17,7 +17,7 @@ using TheLunatic;
 
 
 namespace HonorBound {
-	abstract public class HonorificEntry {
+	abstract class HonorificEntry {
 		public string Name { get; protected set; }
 		public string[] Descriptions { get; protected set; }
 
@@ -36,7 +36,7 @@ namespace HonorBound {
 
 
 
-	public class HonorBoundLogic {
+	class HonorBoundLogic {
 		public static readonly IDictionary<string, HonorificEntry> Honorifics = new Dictionary<string, HonorificEntry>();
 
 		public IDictionary<string, bool> HonorificAllowed = new Dictionary<string, bool>();
@@ -52,25 +52,25 @@ namespace HonorBound {
 			var lun_ver = new Version( 1, 2 );
 			var lif_ver = new Version( 1, 1 );
 
-			if( Durability.ConfigurationData.CurrentVersion.Major != dur_ver.Major || Durability.ConfigurationData.CurrentVersion.Minor != dur_ver.Minor ) {
+			if( DurabilityConfigData.CurrentVersion.Major != dur_ver.Major || DurabilityConfigData.CurrentVersion.Minor != dur_ver.Minor ) {
 				list.Add( "Honor Bound requires Durability to be at least version " + dur_ver.ToString() );// + " or newer." );
 			}
-			if( InjuryMod.ConfigVersion.Major != inj_ver.Major || InjuryMod.ConfigVersion.Minor != inj_ver.Minor ) {
+			if( InjuryConfigData.ConfigVersion.Major != inj_ver.Major || InjuryConfigData.ConfigVersion.Minor != inj_ver.Minor ) {
 				list.Add( "Honor Bound requires Injury to be at least version " + inj_ver.ToString() );// + " or newer." );
 			}
-			if( LivesMod.ConfigVersion.Major != liv_ver.Major || LivesMod.ConfigVersion.Minor != liv_ver.Minor ) {
+			if( LivesConfigData.ConfigVersion.Major != liv_ver.Major || LivesConfigData.ConfigVersion.Minor != liv_ver.Minor ) {
 				list.Add( "Honor Bound requires Lives to be at least version " + liv_ver.ToString() );// + " or newer." );
 			}
-			if( StaminaMod.ConfigVersion.Major != sta_ver.Major || StaminaMod.ConfigVersion.Minor != sta_ver.Minor ) {
+			if( StaminaConfigData.ConfigVersion.Major != sta_ver.Major || StaminaConfigData.ConfigVersion.Minor != sta_ver.Minor ) {
 				list.Add( "Honor Bound requires Stamina to be at least version " + sta_ver.ToString() );// + " or newer." );
 			}
-			if( CapitalismMod.ConfigVersion.Major != cap_ver.Major || CapitalismMod.ConfigVersion.Minor != cap_ver.Minor ) {
+			if( CapitalismConfigData.ConfigVersion.Major != cap_ver.Major || CapitalismConfigData.ConfigVersion.Minor != cap_ver.Minor ) {
 				list.Add( "Honor Bound requires Capitalism to be at least version " + cap_ver.ToString() );// + " or newer." );
 			}
 			if( LunaticConfigData.CurrentVersion.Major != lun_ver.Major || LunaticConfigData.CurrentVersion.Minor != lun_ver.Minor ) {
 				list.Add( "Honor Bound requires The Lunatic to be at least version " + lun_ver.ToString() );// + " or newer." );
 			}
-			if( LosingIsFun.ConfigurationData.CurrentVersion.Major != lif_ver.Major || LosingIsFun.ConfigurationData.CurrentVersion.Minor != lif_ver.Minor ) {
+			if( LosingIsFunConfigData.CurrentVersion.Major != lif_ver.Major || LosingIsFunConfigData.CurrentVersion.Minor != lif_ver.Minor ) {
 				list.Add( "Honor Bound requires Losing Is Fun to be at least version " + lif_ver.ToString() );// + " or newer." );
 			}
 
@@ -126,7 +126,7 @@ namespace HonorBound {
 				this.HonorificAllowed[ kv.Key ] = true;
 			}
 
-			if( !mods_up_to_date || mymod.Config.Data.IsDebugReset() ) {
+			if( !mods_up_to_date || mymod.IsDebugReset() ) {
 				this.IsHonorBound = false;
 				this.IsDishonorable = false;
 				this.CurrentActiveHonorifics = new HashSet<string>();
@@ -156,7 +156,7 @@ namespace HonorBound {
 		////////////////
 		
 		public void RefreshAllowedHonorifics() {
-			if( LunaticInterface.HasCurrentGameEnded() && !this.NotPlayingLunatic ) {
+			if( TheLunaticAPI.HasCurrentGameEnded() && !this.NotPlayingLunatic ) {
 				this.NotPlayingLunatic = true;
 				HonorBoundLogic.Honorifics[ "Expedient" ].NotAllowed( this );
 				HonorBoundLogic.Honorifics[ "Strategist" ].NotAllowed( this );
@@ -168,20 +168,13 @@ namespace HonorBound {
 		////////////////
 
 		internal void EnableMods( bool enable ) {
-			var dur_mod = (DurabilityMod)ModLoader.GetMod( "Durability" );
-			var inj_mod = (InjuryMod)ModLoader.GetMod( "Injury" );
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
-			var sta_mod = (StaminaMod)ModLoader.GetMod( "Stamina" );
-			var cap_mod = (CapitalismMod)ModLoader.GetMod( "Capitalism" );
-			var lif_mod = (LosingIsFunMod)ModLoader.GetMod( "LosingIsFun" );
-
-			dur_mod.Config.Data.Enabled = enable;
-			inj_mod.Config.Data.Enabled = enable;
-			liv_mod.Config.Data.Enabled = enable;
-			sta_mod.Config.Data.Enabled = enable;
-			cap_mod.Config.Data.Enabled = enable;
-			LunaticConfigData.GetCurrent().Enabled = enable;
-			lif_mod.Config.Data.Enabled = enable;
+			DurabilityAPI.GetModSettings().Enabled = enable;
+			InjuryAPI.GetModSettings().Enabled = enable;
+			LivesAPI.GetModSettings().Enabled = enable;
+			StaminaAPI.GetModSettings().Enabled = enable;
+			CapitalismAPI.GetModSettings().Enabled = enable;
+			TheLunaticAPI.GetModSettings().Enabled = enable;
+			LosingIsFunAPI.GetModSettings().Enabled = enable;
 		}
 
 
@@ -232,7 +225,7 @@ namespace HonorBound {
 
 			if( Main.netMode != 2 ) {   // Not server
 				var player = Main.LocalPlayer;
-				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
+				var modplayer = player.GetModPlayer<MyPlayer>( mymod );
 
 				if( !modplayer.HasBegunCurrentWorld() ) {
 					foreach( string honorific in this.CurrentActiveHonorifics ) {
@@ -254,7 +247,7 @@ namespace HonorBound {
 
 			if( Main.netMode != 2 ) {   // Not server
 				var player = Main.LocalPlayer;
-				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
+				var modplayer = player.GetModPlayer<MyPlayer>( mymod );
 
 				if( !modplayer.HasBegunCurrentWorld() ) {
 					modplayer.Begin();

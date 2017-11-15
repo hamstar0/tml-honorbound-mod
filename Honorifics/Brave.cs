@@ -1,6 +1,5 @@
 ﻿using Injury;
 using Lives;
-using Terraria.ModLoader;
 
 
 namespace HonorBound.Honorifics {
@@ -15,19 +14,19 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var inj_mod = (InjuryMod)ModLoader.GetMod( "Injury" );
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
+			var inj_config = InjuryAPI.GetModSettings();
+			var liv_config = LivesAPI.GetModSettings();
 
-			inj_mod.Config.Data.CraftableLifeCrystal = false;
-			liv_mod.Config.Data.CraftableExtraLives = false;
+			inj_config.CraftableLifeCrystal = false;
+			liv_config.CraftableExtraLives = false;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var inj_mod = (InjuryMod)ModLoader.GetMod( "Injury" );
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
+			var inj_config = InjuryAPI.GetModSettings();
+			var liv_config = LivesAPI.GetModSettings();
 
-			inj_mod.Config.Data.CraftableLifeCrystal = true;
-			liv_mod.Config.Data.CraftableExtraLives = true;
+			inj_config.CraftableLifeCrystal = true;
+			liv_config.CraftableExtraLives = true;
 		}
 	}
 }

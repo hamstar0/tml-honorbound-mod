@@ -17,7 +17,7 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var config = LunaticConfigData.GetCurrent();
+			var config = TheLunaticAPI.GetModSettings();
 			var lun_default = new LunaticConfigData();
 
 			config.WallOfFleshMultiplier = lun_default.WallOfFleshMultiplier / 2f;
@@ -25,7 +25,7 @@ namespace HonorBound.Honorifics {
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var config = LunaticConfigData.GetCurrent();
+			var config = TheLunaticAPI.GetModSettings();
 			var lun_default = new LunaticConfigData();
 
 			config.WallOfFleshMultiplier = lun_default.WallOfFleshMultiplier;

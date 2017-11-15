@@ -7,7 +7,7 @@ using Terraria.ModLoader.IO;
 
 
 namespace HonorBound {
-	public class HonorBoundPlayer : ModPlayer {
+	class MyPlayer : ModPlayer {
 		private ISet<string> BegunWorldIds;
 
 		public bool HasEnteredWorld { get; private set; }
@@ -22,7 +22,7 @@ namespace HonorBound {
 		public override void clientClone( ModPlayer clone ) {
 			base.clientClone( clone );
 
-			var myclone = (HonorBoundPlayer)clone;
+			var myclone = (MyPlayer)clone;
 			myclone.BegunWorldIds = this.BegunWorldIds;
 			myclone.HasEnteredWorld = this.HasEnteredWorld;
 		}
@@ -57,7 +57,7 @@ namespace HonorBound {
 			if( !this.HasEnteredWorld ) { return; }
 
 			var mymod = (HonorBoundMod)this.mod;
-			var modworld = mymod.GetModWorld<HonorBoundWorld>();
+			var modworld = mymod.GetModWorld<MyWorld>();
 
 			if( !mymod.IsEnabled() ) {
 				Main.NewText( "Honor Bound disabled (if unexpected, see log.txt for information).", Color.Gray );
@@ -101,7 +101,7 @@ namespace HonorBound {
 		////////////////
 
 		internal bool HasBegunCurrentWorld() {
-			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
+			var modworld = this.mod.GetModWorld<MyWorld>();
 			if( !modworld.HasCorrectID ) { throw new Exception("Cannot check if game is running for player without world loaded."); }
 			if( !this.HasEnteredWorld ) { throw new Exception( "Cannot check if game is running for player if player hasn't joined game." ); }
 			
@@ -109,7 +109,7 @@ namespace HonorBound {
 		}
 
 		internal void Begin() {
-			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
+			var modworld = this.mod.GetModWorld<MyWorld>();
 			if( !modworld.HasCorrectID ) { throw new Exception( "Cannot begin game for player without world loaded." ); }
 			if( !this.HasEnteredWorld ) { throw new Exception( "Cannot begin game if player hasn't joined game." ); }
 

@@ -1,5 +1,4 @@
-﻿using Terraria.ModLoader;
-using TheLunatic;
+﻿using TheLunatic;
 
 
 namespace HonorBound.Honorifics {
@@ -13,13 +12,13 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var config = LunaticConfigData.GetCurrent();
+			var config = TheLunaticAPI.GetModSettings();
 
 			config.MoonLordMaskWins = false;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var config = LunaticConfigData.GetCurrent();
+			var config = TheLunaticAPI.GetModSettings();
 
 			config.MoonLordMaskWins = true;
 		}

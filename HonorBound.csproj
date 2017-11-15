@@ -70,11 +70,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API.cs" />
     <Compile Include="ConfigDefaults.cs" />
     <Compile Include="HonorBoundLogic.cs" />
     <Compile Include="HonorBoundMod.cs" />
-    <Compile Include="HonorBoundPlayer.cs" />
-    <Compile Include="HonorBoundWorld.cs" />
+    <Compile Include="MyPlayer.cs" />
+    <Compile Include="MyWorld.cs" />
     <Compile Include="Honorifics\Procrastinator.cs" />
     <Compile Include="Honorifics\Completionist.cs" />
     <Compile Include="Honorifics\Strategist.cs" />

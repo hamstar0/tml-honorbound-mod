@@ -14,13 +14,13 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var config = LunaticConfigData.GetCurrent();
+			var config = TheLunaticAPI.GetModSettings();
 
 			config.HalfDaysRecoveredPerMask = 2;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var config = LunaticConfigData.GetCurrent();
+			var config = TheLunaticAPI.GetModSettings();
 			var lun_default = new LunaticConfigData();
 
 			config.HalfDaysRecoveredPerMask = lun_default.HalfDaysRecoveredPerMask;

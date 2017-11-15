@@ -11,6 +11,24 @@ using Terraria.UI;
 
 namespace HonorBound {
 	class HonorBoundMod : Mod {
+		public static HonorBoundMod Instance { get; private set; }
+
+		public static string GithubUserName { get { return "hamstar0"; } }
+		public static string GithubProjectName { get { return "tml-honorbound-mod"; } }
+
+		public static string ConfigRelativeFilePath {
+			get { return ConfigurationDataBase.RelativePath + Path.DirectorySeparatorChar + HonorBoundConfigData.ConfigFileName; }
+		}
+		public static void ReloadConfigFromFile() {
+			if( Main.netMode != 0 ) {
+				throw new Exception( "Cannot reload configs outside of single player." );
+			}
+			HonorBoundMod.Instance.Config.LoadFile();
+		}
+
+
+		////////////////
+
 		public JsonConfig<HonorBoundConfigData> Config { get; private set; }
 
 		public HonorBoundUI UI = null;
@@ -29,16 +47,18 @@ namespace HonorBound {
 				AutoloadSounds = true
 			};
 
-			string filename = "Honor Bound Config.json";
-			this.Config = new JsonConfig<HonorBoundConfigData>( filename, "Mod Configs", new HonorBoundConfigData() );
+			this.Config = new JsonConfig<HonorBoundConfigData>( HonorBoundConfigData.ConfigFileName, ConfigurationDataBase.RelativePath, new HonorBoundConfigData() );
 		}
-		
-		public override void Load() {
-			var hamhelpmod = ModLoader.GetMod( "HamstarHelpers" );
-			var min_vers = new Version( 1, 1, 1 );
 
+		////////////////
+
+		public override void Load() {
+			HonorBoundMod.Instance = this;
+
+			var hamhelpmod = ModLoader.GetMod( "HamstarHelpers" );
+			var min_vers = new Version( 1, 2, 0 );
 			if( hamhelpmod.Version < min_vers ) {
-				throw new Exception( "Hamstar's Helpers must be version " + min_vers.ToString() + " or greater." );
+				throw new Exception( "Hamstar Helpers must be version " + min_vers.ToString() + " or greater." );
 			}
 
 			this.LoadConfig();
@@ -63,7 +83,13 @@ namespace HonorBound {
 				this.Config.SaveFile();
 			}
 		}
-		
+
+		public override void Unload() {
+			HonorBoundMod.Instance = null;
+		}
+
+
+		////////////////
 
 		public override void PostSetupContent() {
 			if( !Main.dedServ ) {
@@ -89,7 +115,7 @@ namespace HonorBound {
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			if( !this.IsEnabled() ) { return; }
 
-			var my_world = this.GetModWorld<HonorBoundWorld>();
+			var my_world = this.GetModWorld<MyWorld>();
 			var my_logic = my_world.Logic;
 			
 			if( !my_logic.IsGameModeBegun ) {
@@ -125,6 +151,14 @@ namespace HonorBound {
 
 		public bool IsEnabled() {
 			return this.Config.Data.Enabled;
+		}
+
+		public bool IsDebugInfo() {
+			return (this.Config.Data.DEBUGMODE & 1) > 0;
+		}
+
+		public bool IsDebugReset() {
+			return (this.Config.Data.DEBUGMODE & 2) > 0;
 		}
 	}
 }

@@ -1,12 +1,11 @@
 ﻿using Lives;
 using Terraria;
-using Terraria.ModLoader;
 
 
 namespace HonorBound.Honorifics {
 	class SurvivorHonorificEntry : HonorificEntry {
 		public SurvivorHonorificEntry() {
-			var liv_default = new Lives.ConfigurationData();
+			var liv_default = new LivesConfigData();
 
 			this.Name = "Survivor";
 			this.Descriptions = new string[] {
@@ -16,33 +15,35 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
-			var liv_player = Main.LocalPlayer.GetModPlayer<LivesPlayer>( liv_mod );
-			var liv_default = new Lives.ConfigurationData();
+			var liv_config = LivesAPI.GetModSettings();
+			var liv_default = new LivesConfigData();
 
-			liv_mod.Config.Data.InitialLives = liv_default.InitialLives;
+			liv_config.InitialLives = liv_default.InitialLives;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
-			var liv_player = Main.LocalPlayer.GetModPlayer<LivesPlayer>( liv_mod );
+			var liv_config = LivesAPI.GetModSettings();
 
-			liv_mod.Config.Data.InitialLives = 10;
+			liv_config.InitialLives = 10;
 		}
 
 		
 		public override void BegunWorldOn( HonorBoundLogic logic ) {
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
-			var liv_player = Main.LocalPlayer.GetModPlayer<LivesPlayer>( liv_mod );
+			if( Main.netMode != 2 ) {
+				var liv_config = LivesAPI.GetModSettings();
+				int base_lives = LivesAPI.GetLives( Main.LocalPlayer );
 
-			liv_player.AddLives( liv_mod.Config.Data.InitialLives - liv_player.Lives );
+				LivesAPI.AddLives( Main.LocalPlayer, liv_config.InitialLives - base_lives );
+			}
 		}
 
 		public override void BegunWorldOff( HonorBoundLogic logic ) {
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
-			var liv_player = Main.LocalPlayer.GetModPlayer<LivesPlayer>( liv_mod );
+			if( Main.netMode != 2 ) {
+				var liv_config = LivesAPI.GetModSettings();
+				int base_lives = LivesAPI.GetLives( Main.LocalPlayer );
 
-			liv_player.AddLives( liv_mod.Config.Data.InitialLives - liv_player.Lives );
+				LivesAPI.AddLives( Main.LocalPlayer, liv_config.InitialLives - base_lives );
+			}
 		}
 	}
 }

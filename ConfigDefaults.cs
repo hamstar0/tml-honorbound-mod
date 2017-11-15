@@ -5,7 +5,10 @@ using System;
 namespace HonorBound {
 	public class HonorBoundConfigData : ConfigurationDataBase {
 		public static readonly Version ConfigVersion = new Version( 1, 0, 2 );
+		public static readonly string ConfigFileName = "Honor Bound Config.json";
 
+
+		////////////////
 
 		public string VersionSinceUpdate = "";
 
@@ -35,16 +38,5 @@ namespace HonorBound {
 		////////////////
 
 		public string _OLD_SETTINGS_BELOW = "";
-
-
-		////////////////
-
-		public bool IsDebugInfo() {
-			return (this.DEBUGMODE & 1) > 0;
-		}
-
-		public bool IsDebugReset() {
-			return (this.DEBUGMODE & 2) > 0;
-		}
 	}
 }

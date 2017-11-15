@@ -1,5 +1,5 @@
 ﻿using HamstarHelpers.HudHelpers;
-using HamstarHelpers.Utilities.UI;
+using HamstarHelpers.UIHelpers.Elements;
 using HonorBound.NetProtocol;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +12,7 @@ using Terraria.UI;
 
 
 namespace HonorBound {
-	public class HonorBoundUI : UIState {
+	class HonorBoundUI : UIState {
 		public static float PanelWidth = 256f;
 		public static float PanelHeight = 416f;
 		public static Color ButtonEdgeColor = new Color( 96, 96, 192 );
@@ -67,7 +67,7 @@ namespace HonorBound {
 
 		public override void OnInitialize() {
 			var mymod = (HonorBoundMod)ModLoader.GetMod( "HonorBound" );
-			var myworld = mymod.GetModWorld<HonorBoundWorld>();
+			var myworld = mymod.GetModWorld<MyWorld>();
 
 			if( HonorBoundUI.BackgroundLogo == null ) {
 				HonorBoundUI.BackgroundLogo = mymod.GetTexture( "BackgroundLogo" );
@@ -102,7 +102,7 @@ namespace HonorBound {
 
 				ui_option.OnSelectedChanged += delegate () {
 					mymod = (HonorBoundMod)ModLoader.GetMod( "HonorBound" );
-					myworld = mymod.GetModWorld<HonorBoundWorld>();
+					myworld = mymod.GetModWorld<MyWorld>();
 					
 					if( ui_option.Selected ) {
 						myworld.Logic.CurrentActiveHonorifics.Add( honorific );
@@ -254,7 +254,7 @@ namespace HonorBound {
 		////////////////
 
 		private void ActivateForHonor( HonorBoundMod mymod ) {
-			var modworld = mymod.GetModWorld<HonorBoundWorld>();
+			var modworld = mymod.GetModWorld<MyWorld>();
 			var mylogic = modworld.Logic;
 			
 			mylogic.ForHonor();
@@ -266,7 +266,7 @@ namespace HonorBound {
 		}
 
 		private void ActivateNoHonor( HonorBoundMod mymod ) {
-			var modworld = mymod.GetModWorld<HonorBoundWorld>();
+			var modworld = mymod.GetModWorld<MyWorld>();
 			var mylogic = modworld.Logic;
 			
 			mylogic.NoHonor();

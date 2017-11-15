@@ -16,23 +16,23 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var inj_mod = (InjuryMod)ModLoader.GetMod( "Injury" );
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
-			var inj_default = new Injury.ConfigurationData();
+			var inj_config = InjuryAPI.GetModSettings();
+			var liv_config = LivesAPI.GetModSettings();
+			var inj_default = new InjuryConfigData();
 
-			inj_mod.Config.Data.LifeCrystalNeedsEvilBossDrops = true;
-			inj_mod.Config.Data.BrokenHeartsPerCrackedLifeCrystal = inj_default.BrokenHeartsPerCrackedLifeCrystal;
-			liv_mod.Config.Data.ExtraLifeVoodoo = true;
+			inj_config.LifeCrystalNeedsEvilBossDrops = true;
+			inj_config.BrokenHeartsPerCrackedLifeCrystal = inj_default.BrokenHeartsPerCrackedLifeCrystal;
+			liv_config.ExtraLifeVoodoo = true;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var inj_mod = (InjuryMod)ModLoader.GetMod( "Injury" );
-			var liv_mod = (LivesMod)ModLoader.GetMod( "Lives" );
-			var inj_default = new Injury.ConfigurationData();
+			var inj_config = InjuryAPI.GetModSettings();
+			var liv_config = LivesAPI.GetModSettings();
+			var inj_default = new InjuryConfigData();
 
-			inj_mod.Config.Data.LifeCrystalNeedsEvilBossDrops = false;
-			inj_mod.Config.Data.BrokenHeartsPerCrackedLifeCrystal = 2;
-			liv_mod.Config.Data.ExtraLifeVoodoo = false;
+			inj_config.LifeCrystalNeedsEvilBossDrops = false;
+			inj_config.BrokenHeartsPerCrackedLifeCrystal = 2;
+			liv_config.ExtraLifeVoodoo = false;
 		}
 	}
 }
