@@ -44,13 +44,13 @@ namespace HonorBound {
 
 		public static IList<string> GetVersionIncompatibilityMessages() {
 			var list = new List<string>();
-			var dur_ver = new Version( 2, 4 );
-			var inj_ver = new Version( 1, 9 );
-			var liv_ver = new Version( 1, 5 );
-			var sta_ver = new Version( 1, 4 );
-			var cap_ver = new Version( 1, 3 );
-			var lun_ver = new Version( 1, 2 );
-			var lif_ver = new Version( 1, 1 );
+			var dur_ver = new Version( 2, 5 );
+			var inj_ver = new Version( 1, 10 );
+			var liv_ver = new Version( 1, 6 );
+			var sta_ver = new Version( 1, 5 );
+			var cap_ver = new Version( 1, 4 );
+			var lun_ver = new Version( 1, 3 );
+			var lif_ver = new Version( 1, 2 );
 
 			if( DurabilityConfigData.CurrentVersion.Major != dur_ver.Major || DurabilityConfigData.CurrentVersion.Minor != dur_ver.Minor ) {
 				list.Add( "Honor Bound requires Durability to be at least version " + dur_ver.ToString() );// + " or newer." );
