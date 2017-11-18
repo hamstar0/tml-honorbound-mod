@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TheLunatic;
 
 
@@ -82,13 +83,13 @@ namespace HonorBound {
 			var cap_ver = new Version( 1, 4 );
 			var lun_ver = new Version( 1, 3 );
 			var lif_ver = new Version( 1, 2 );
-			Version cur_dur_ver = DurabilityConfigData.CurrentVersion;
-			Version cur_inj_ver = InjuryConfigData.ConfigVersion;
-			Version cur_liv_ver = LivesConfigData.ConfigVersion;
-			Version cur_sta_ver = StaminaConfigData.ConfigVersion;
-			Version cur_cap_ver = CapitalismConfigData.ConfigVersion;
-			Version cur_lun_ver = LunaticConfigData.CurrentVersion;
-			Version cur_lif_ver = LosingIsFunConfigData.CurrentVersion;
+			Version cur_dur_ver = ModLoader.GetMod("Durability").Version;
+			Version cur_inj_ver = ModLoader.GetMod( "Injury" ).Version;
+			Version cur_liv_ver = ModLoader.GetMod( "Lives" ).Version;
+			Version cur_sta_ver = ModLoader.GetMod( "Stamina" ).Version;
+			Version cur_cap_ver = ModLoader.GetMod( "Capitalism" ).Version;
+			Version cur_lun_ver = ModLoader.GetMod( "TheLunatic" ).Version;
+			Version cur_lif_ver = ModLoader.GetMod( "LosingIsFun" ).Version;
 
 			if( cur_dur_ver.Major != dur_ver.Major || cur_dur_ver.Minor != dur_ver.Minor ) {
 				list.Add( "Honor Bound requires Durability "+cur_dur_ver.ToString()+" to be at least version " + dur_ver.ToString() );// + " or newer." );
