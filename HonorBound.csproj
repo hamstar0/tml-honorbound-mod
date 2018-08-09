@@ -52,8 +52,8 @@
     <Compile Include="Honorifics\Resourceful.cs" />
     <Compile Include="Honorifics\Strategist.cs" />
     <Compile Include="Honorifics\Survivor.cs" />
-    <Compile Include="MyPlayer.cs" />
-    <Compile Include="MyWorld.cs" />
+    <Compile Include="HonorBoundPlayer.cs" />
+    <Compile Include="HonorBoundWorld.cs" />
     <Compile Include="NetProtocol\ClientPacketHandlers.cs" />
     <Compile Include="NetProtocol\NetProtocolTypes.cs" />
     <Compile Include="NetProtocol\ServerPacketHandlers.cs" />

@@ -7,7 +7,7 @@ using Terraria.ModLoader.IO;
 
 
 namespace HonorBound {
-	class MyWorld : ModWorld {
+	class HonorBoundWorld : ModWorld {
 		public string ID { get; private set; }
 		public bool HasCorrectID { get; private set; }  // Workaround for tml bug?
 
@@ -70,7 +70,7 @@ namespace HonorBound {
 
 		public override void NetReceive( BinaryReader reader ) {
 			var mymod = (HonorBoundMod)this.mod;
-			var modplayer = Main.LocalPlayer.GetModPlayer<MyPlayer>( mymod );
+			var modplayer = Main.LocalPlayer.GetModPlayer<HonorBoundPlayer>( mymod );
 			if( !modplayer.HasEnteredWorld ) { return; }
 
 			ISet<string> honorifics = new HashSet<string>();

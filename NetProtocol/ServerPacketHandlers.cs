@@ -44,7 +44,7 @@ namespace HonorBound.NetProtocol {
 		public static void SendHonorSettingsFromServer( HonorBoundMod mymod, Player player ) {
 			if( Main.netMode != 2 ) { return; } // Server only
 
-			var modworld = mymod.GetModWorld<MyWorld>();
+			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
 			ModPacket packet = mymod.GetPacket();
 
@@ -127,7 +127,7 @@ namespace HonorBound.NetProtocol {
 					" honorifics:" + String.Join( ",", honorifics ) );
 			}
 
-			var modworld = mymod.GetModWorld<MyWorld>();
+			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 			modworld.Logic = new HonorBoundLogic( mymod, is_honor_bound, has_no_honor, honorifics );
 
 			for( int i = 0; i < Main.player.Length; i++ ) {

@@ -184,7 +184,7 @@ namespace HonorBound {
 
 			if( Main.netMode != 2 ) {   // Not server
 				var player = Main.LocalPlayer;
-				var modplayer = player.GetModPlayer<MyPlayer>( mymod );
+				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
 
 				if( !modplayer.HasBegunCurrentWorld() ) {
 					foreach( string honorific in this.CurrentActiveHonorifics ) {
@@ -206,7 +206,7 @@ namespace HonorBound {
 
 			if( Main.netMode != 2 ) {   // Not server
 				var player = Main.LocalPlayer;
-				var modplayer = player.GetModPlayer<MyPlayer>( mymod );
+				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
 
 				if( !modplayer.HasBegunCurrentWorld() ) {
 					modplayer.Begin();
