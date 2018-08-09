@@ -9,7 +9,7 @@ namespace HonorBound.Honorifics {
 			this.Name = "Cautious";
 			this.Descriptions = new string[] {
 				"Life Crystals need evil biome boss drops to craft.",
-				"Cracked Life Crystals require more Broken Hearts.",
+				"Cracked Life Crystals require more Vitae.",
 				"1-Ups need voodoo dolls to craft."
 			};
 		}
@@ -21,7 +21,7 @@ namespace HonorBound.Honorifics {
 			var inj_default = new InjuryConfigData();
 
 			inj_config.LifeCrystalNeedsEvilBossDrops = true;
-			inj_config.BrokenHeartsPerCrackedLifeCrystal = inj_default.BrokenHeartsPerCrackedLifeCrystal;
+			inj_config.VitaePerCrackedLifeCrystal = inj_default.VitaePerCrackedLifeCrystal;
 			liv_config.ExtraLifeVoodoo = true;
 		}
 
@@ -31,7 +31,7 @@ namespace HonorBound.Honorifics {
 			var inj_default = new InjuryConfigData();
 
 			inj_config.LifeCrystalNeedsEvilBossDrops = false;
-			inj_config.BrokenHeartsPerCrackedLifeCrystal = 2;
+			inj_config.VitaePerCrackedLifeCrystal = 2;
 			liv_config.ExtraLifeVoodoo = false;
 		}
 	}

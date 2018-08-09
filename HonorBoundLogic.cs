@@ -1,7 +1,7 @@
 ﻿using Capitalism;
 using Durability;
-using HamstarHelpers.DebugHelpers;
-using HamstarHelpers.Utilities.Messages;
+using HamstarHelpers.Helpers.DebugHelpers;
+using HamstarHelpers.Services.Messages;
 using HonorBound.Honorifics;
 using Injury;
 using Lives;
@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using TheLunatic;
 
 
@@ -45,9 +44,6 @@ namespace HonorBound {
 		////////////////
 
 		static HonorBoundLogic() {
-			bool up_to_date = HonorBoundLogic.GetVersionIncompatibilityMessages().Count == 0;
-			if( !up_to_date ) { return; }
-
 			try {
 				HonorBoundLogic.DefineHonorific( new DuelistHonorificEntry() );
 				HonorBoundLogic.DefineHonorific( new CautiousHonorificEntry() );    // was 'Prudent'
@@ -63,7 +59,7 @@ namespace HonorBound {
 				HonorBoundLogic.DefineHonorific( new CompletionistHonorificEntry() );
 				HonorBoundLogic.DefineHonorific( new ProcrastinatorHonorificEntry() );
 			} catch( Exception e ) {
-				DebugHelpers.Log( e.ToString() );
+				LogHelpers.Log( e.ToString() );
 				throw e;
 			}
 		}
@@ -71,51 +67,6 @@ namespace HonorBound {
 		private static void DefineHonorific( HonorificEntry entry ) {
 			HonorBoundLogic.Honorifics[entry.Name] = entry;
 		}
-
-		////////////////
-
-		public static IList<string> GetVersionIncompatibilityMessages() {
-			var list = new List<string>();
-			var dur_ver = new Version( 2, 5 );
-			var inj_ver = new Version( 1, 10 );
-			var liv_ver = new Version( 1, 6 );
-			var sta_ver = new Version( 1, 5 );
-			var cap_ver = new Version( 1, 4 );
-			var lun_ver = new Version( 1, 3 );
-			var lif_ver = new Version( 1, 2 );
-			Version cur_dur_ver = ModLoader.GetMod("Durability").Version;
-			Version cur_inj_ver = ModLoader.GetMod( "Injury" ).Version;
-			Version cur_liv_ver = ModLoader.GetMod( "Lives" ).Version;
-			Version cur_sta_ver = ModLoader.GetMod( "Stamina" ).Version;
-			Version cur_cap_ver = ModLoader.GetMod( "Capitalism" ).Version;
-			Version cur_lun_ver = ModLoader.GetMod( "TheLunatic" ).Version;
-			Version cur_lif_ver = ModLoader.GetMod( "LosingIsFun" ).Version;
-
-			if( cur_dur_ver.Major != dur_ver.Major || cur_dur_ver.Minor != dur_ver.Minor ) {
-				list.Add( "Honor Bound requires Durability "+cur_dur_ver.ToString()+" to be at least version " + dur_ver.ToString() );// + " or newer." );
-			}
-			if( cur_inj_ver.Major != inj_ver.Major || cur_inj_ver.Minor != inj_ver.Minor ) {
-				list.Add( "Honor Bound requires Injury " + cur_inj_ver.ToString() + " to be at least version " + inj_ver.ToString() );// + " or newer." );
-			}
-			if( cur_liv_ver.Major != liv_ver.Major || cur_liv_ver.Minor != liv_ver.Minor ) {
-				list.Add( "Honor Bound requires Lives " + cur_liv_ver.ToString() + " to be at least version " + liv_ver.ToString() );// + " or newer." );
-			}
-			if( cur_sta_ver.Major != sta_ver.Major || cur_sta_ver.Minor != sta_ver.Minor ) {
-				list.Add( "Honor Bound requires Stamina " + cur_sta_ver.ToString() + " to be at least version " + sta_ver.ToString() );// + " or newer." );
-			}
-			if( cur_cap_ver.Major != cap_ver.Major || cur_cap_ver.Minor != cap_ver.Minor ) {
-				list.Add( "Honor Bound requires Capitalism " + cur_cap_ver.ToString() + " to be at least version " + cap_ver.ToString() );// + " or newer." );
-			}
-			if( cur_lun_ver.Major != lun_ver.Major || cur_lun_ver.Minor != lun_ver.Minor ) {
-				list.Add( "Honor Bound requires The Lunatic " + cur_lun_ver.ToString() + " to be at least version " + lun_ver.ToString() );// + " or newer." );
-			}
-			if( cur_lif_ver.Major != lif_ver.Major || cur_lif_ver.Minor != lif_ver.Minor ) {
-				list.Add( "Honor Bound requires Losing Is Fun " + cur_lif_ver.ToString() + " to be at least version " + lif_ver.ToString() );// + " or newer." );
-			}
-
-			return list;
-		}
-
 
 
 		////////////////
@@ -130,13 +81,11 @@ namespace HonorBound {
 
 
 		internal HonorBoundLogic( HonorBoundMod mymod, bool is_honor_bound, bool has_no_honor, ISet<string> honorifics ) {
-			bool mods_up_to_date = HonorBoundLogic.GetVersionIncompatibilityMessages().Count == 0;
-			
 			foreach( var kv in HonorBoundLogic.Honorifics ) {
 				this.HonorificAllowed[ kv.Key ] = true;
 			}
 
-			if( !mods_up_to_date || mymod.IsDebugReset() ) {
+			if( mymod.IsDebugReset() ) {
 				this.IsHonorBound = false;
 				this.IsDishonorable = false;
 				this.CurrentActiveHonorifics = new HashSet<string>();

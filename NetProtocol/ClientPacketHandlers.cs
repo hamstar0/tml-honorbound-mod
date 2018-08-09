@@ -1,4 +1,4 @@
-﻿using HamstarHelpers.DebugHelpers;
+﻿using HamstarHelpers.Helpers.DebugHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +19,7 @@ namespace HonorBound.NetProtocol {
 				ClientPacketHandlers.ReceiveHonorSettingsWithClient( mymod, reader );
 				break;
 			default:
-				/*if( mymod.IsDebugInfoMode() ) {*/ DebugHelpers.Log( "RouteReceivedClientPackets ...? "+protocol ); //}
+				/*if( mymod.IsDebugInfoMode() ) {*/ LogHelpers.Log( "RouteReceivedClientPackets ...? "+protocol ); //}
 				break;
 			}
 		}
@@ -58,7 +58,7 @@ namespace HonorBound.NetProtocol {
 
 			packet.Send( -1 );
 
-			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
 				ErrorLogger.Log( "SendHonorSettingsFromClient - IsHonorBound:" + mylogic.IsHonorBound +
 					" IsDishonorable:" + mylogic.IsDishonorable +
 					" CurrentActiveHonorifics:" + String.Join( ",", mylogic.CurrentActiveHonorifics ) );
@@ -89,7 +89,7 @@ namespace HonorBound.NetProtocol {
 				honorifics.Add( reader.ReadString() );
 			}
 
-			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
 				ErrorLogger.Log( "ReceiveHonorSettingsWithClient - is_honor_bound:" + is_honor_bound +
 					" has_no_honor:" + has_no_honor +
 					" num_honorifics: " + num_honorifics +

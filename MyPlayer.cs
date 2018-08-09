@@ -13,6 +13,9 @@ namespace HonorBound {
 		public bool HasEnteredWorld { get; private set; }
 
 
+		////////////////
+
+		public override bool CloneNewInstances { get { return false; } }
 
 		public override void Initialize() {
 			this.BegunWorldIds = new HashSet<string>();
@@ -27,30 +30,28 @@ namespace HonorBound {
 			myclone.HasEnteredWorld = this.HasEnteredWorld;
 		}
 
+		////////////////
 
 		public override void OnEnterWorld( Player player ) {
+			if( player.whoAmI != Main.myPlayer ) { return; }
+			if( this.player.whoAmI != Main.myPlayer ) { return; }
+
 			var mymod = (HonorBoundMod)this.mod;
-
-			if( player.whoAmI == this.player.whoAmI ) { // Current player
-				/*if( Main.netMode != 2 ) { // Not server
-					if( !mymod.Config.LoadFile() ) {
-						mymod.Config.SaveFile();
-					}
+			
+			/*if( Main.netMode != 2 ) { // Not server
+				if( !mymod.Config.LoadFile() ) {
+					mymod.Config.SaveFile();
 				}
-
-				if( Main.netMode == 1 ) { // Client
-					HonorBoundNetProtocol.RequestSettingsWithClient( mymod, player );
-				}*/
-
-				foreach( string err in HonorBoundLogic.GetVersionIncompatibilityMessages() ) {
-					Main.NewText( err, Color.Gray );
-				}
-
-				mymod.UI.ResetOptions();
-
-				this.HasEnteredWorld = true;
-				this.OnEnterWorldIfSynced();
 			}
+
+			if( Main.netMode == 1 ) { // Client
+				HonorBoundNetProtocol.RequestSettingsWithClient( mymod, player );
+			}*/
+
+			mymod.UI.ResetOptions();
+
+			this.HasEnteredWorld = true;
+			this.OnEnterWorldIfSynced();
 		}
 
 		public void OnEnterWorldIfSynced() {

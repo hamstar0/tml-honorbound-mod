@@ -1,4 +1,4 @@
-﻿using HamstarHelpers.DebugHelpers;
+﻿using HamstarHelpers.Helpers.DebugHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +19,7 @@ namespace HonorBound.NetProtocol {
 				ServerPacketHandlers.ReceiveHonorSettingsRequestWithServer( mymod, reader );
 				break;
 			default:
-				/*if( mymod.IsDebugInfoMode() ) {*/ DebugHelpers.Log( "RouteReceivedServerPackets ...? " + protocol ); //}
+				/*if( mymod.IsDebugInfoMode() ) {*/ LogHelpers.Log( "RouteReceivedServerPackets ...? " + protocol ); //}
 				break;
 			}
 		}
@@ -58,7 +58,7 @@ namespace HonorBound.NetProtocol {
 
 			packet.Send( (int)player.whoAmI );
 
-			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
 				ErrorLogger.Log( "SendHonorSettingsFromServer - IsHonorBound:" + mylogic.IsHonorBound +
 					" IsDishonorable:" + mylogic.IsDishonorable +
 					" CurrentActiveHonorifics:" + String.Join( ",", mylogic.CurrentActiveHonorifics ) );
@@ -94,7 +94,7 @@ namespace HonorBound.NetProtocol {
 				return;
 			}
 
-			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
 				ErrorLogger.Log( "ReceiveHonorSettingsRequestWithServer - who:" + who );
 			}
 
@@ -119,7 +119,7 @@ namespace HonorBound.NetProtocol {
 				return;
 			}
 
-			if( (mymod.Config.Data.DEBUGMODE & 1) != 0 ) {
+			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
 				ErrorLogger.Log( "ReceiveHonorSettingsWithServer - who_from: " + who_from +
 					" is_honor_bound:" + is_honor_bound +
 					" has_no_honor:" + has_no_honor +

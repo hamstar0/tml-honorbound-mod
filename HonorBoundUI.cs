@@ -1,5 +1,5 @@
-﻿using HamstarHelpers.HudHelpers;
-using HamstarHelpers.UIHelpers.Elements;
+﻿using HamstarHelpers.Components.UI.Elements;
+using HamstarHelpers.Helpers.HudHelpers;
 using HonorBound.NetProtocol;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
