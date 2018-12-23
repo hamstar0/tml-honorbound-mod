@@ -1,4 +1,5 @@
-﻿using Lives;
+﻿using HamstarHelpers.Helpers.DebugHelpers;
+using Lives;
 using Terraria;
 
 
@@ -32,7 +33,7 @@ namespace HonorBound.Honorifics {
 			if( Main.netMode != 2 ) {
 				var liv_config = LivesAPI.GetModSettings();
 				int base_lives = LivesAPI.GetLives( Main.LocalPlayer );
-
+				
 				LivesAPI.AddLives( Main.LocalPlayer, liv_config.InitialLives - base_lives );
 			}
 		}

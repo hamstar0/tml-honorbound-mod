@@ -1,5 +1,6 @@
 ﻿using Capitalism;
 using Durability;
+using HamstarHelpers.Components.Errors;
 using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Services.Messages;
 using HonorBound.Honorifics;
@@ -32,6 +33,7 @@ namespace HonorBound {
 			logic.CurrentActiveHonorifics.Remove( this.Name );
 		}
 	}
+
 
 
 
@@ -141,7 +143,7 @@ namespace HonorBound {
 		////////////////
 		
 		internal void BeginGameModeForLocalPlayer( HonorBoundMod mymod ) {
-			if( this.IsGameModeBegun ) { throw new Exception( "BeginGameModeForLocalPlayer() - Already begun." ); }
+			if( this.IsGameModeBegun ) { throw new HamstarException( "BeginGameModeForLocalPlayer() - Already begun." ); }
 
 			if( this.IsHonorBound ) {
 				this.ApplyHonorifics( mymod );
@@ -152,12 +154,12 @@ namespace HonorBound {
 		}
 
 		internal void ForHonor() {
-			if( this.IsGameModeBegun ) { throw new Exception( "ForHonor() - Already begun." ); }
+			if( this.IsGameModeBegun ) { throw new HamstarException( "ForHonor() - Already begun." ); }
 			this.IsHonorBound = true;
 		}
 
 		internal void NoHonor() {
-			if( this.IsGameModeBegun ) { throw new Exception( "NoHonor() - Already begun." ); }
+			if( this.IsGameModeBegun ) { throw new HamstarException( "NoHonor() - Already begun." ); }
 			this.IsDishonorable = true;
 		}
 
@@ -165,39 +167,41 @@ namespace HonorBound {
 
 		private void ApplyHonorifics( HonorBoundMod mymod ) {
 			var skipped = HonorBoundLogic.Honorifics.Keys.Where( x => !this.CurrentActiveHonorifics.Contains( x ) );
-
+			
 			this.EnableMods( true );
-
+			
 			foreach( string honorific in this.CurrentActiveHonorifics ) {
 				HonorBoundLogic.Honorifics[honorific].LoadOn( this );
 			}
 			foreach( string honorific in skipped ) {
 				HonorBoundLogic.Honorifics[honorific].LoadOff( this );
 			}
-
+			
 			foreach( string honorific in this.CurrentActiveHonorifics ) {
 				HonorBoundLogic.Honorifics[honorific].PostLoadOn( this );
 			}
 			foreach( string honorific in skipped ) {
 				HonorBoundLogic.Honorifics[honorific].PostLoadOff( this );
 			}
-
+			
 			if( Main.netMode != 2 ) {   // Not server
 				var player = Main.LocalPlayer;
 				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
-
+				
 				if( !modplayer.HasBegunCurrentWorld() ) {
 					foreach( string honorific in this.CurrentActiveHonorifics ) {
-						HonorBoundLogic.Honorifics[honorific].BegunWorldOn( this );
+						if( !HonorBoundLogic.Honorifics.ContainsKey(honorific) ) { continue; }
+						HonorBoundLogic.Honorifics[ honorific ].BegunWorldOn( this );
 					}
 					foreach( string honorific in skipped ) {
-						HonorBoundLogic.Honorifics[honorific].BegunWorldOff( this );
+						if( !HonorBoundLogic.Honorifics.ContainsKey( honorific ) ) { continue; }
+						HonorBoundLogic.Honorifics[ honorific ].BegunWorldOff( this );
 					}
-
+					
 					modplayer.Begin();
 				}
 			}
-
+			
 			this.AnnounceHonorifics();
 		}
 

@@ -1,4 +1,5 @@
-﻿using Stamina;
+﻿using HamstarHelpers.Helpers.DebugHelpers;
+using Stamina;
 using Terraria;
 
 
@@ -35,7 +36,7 @@ namespace HonorBound.Honorifics {
 			if( Main.netMode != 2 ) {
 				var sta_config = StaminaAPI.GetModSettings();
 				var sta_default = new StaminaConfigData();
-
+				
 				StaminaAPI.AddStamina( Main.LocalPlayer, sta_default.InitialStamina - StaminaAPI.GetStamina( Main.LocalPlayer ) );
 			}
 		}

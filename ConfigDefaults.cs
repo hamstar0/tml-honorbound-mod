@@ -4,7 +4,6 @@ using System;
 
 namespace HonorBound {
 	public class HonorBoundConfigData : ConfigurationDataBase {
-		public static readonly Version ConfigVersion = new Version( 1, 0, 2 );
 		public static readonly string ConfigFileName = "Honor Bound Config.json";
 
 
@@ -20,17 +19,29 @@ namespace HonorBound {
 
 		////////////////
 
+		public void SetDefaults() { }
+
+
+		////////////////
+
 		public bool UpdateToLatestVersion() {
-			var new_config = new HonorBoundConfigData();
-			var vers_since = this.VersionSinceUpdate != "" ?
+			var mymod = HonorBoundMod.Instance;
+			var newConfig = new HonorBoundConfigData();
+			newConfig.SetDefaults();
+
+			var versSince = this.VersionSinceUpdate != "" ?
 				new Version( this.VersionSinceUpdate ) :
 				new Version();
 
-			if( vers_since >= HonorBoundConfigData.ConfigVersion ) {
+			if( versSince >= mymod.Version ) {
 				return false;
 			}
-			
-			this.VersionSinceUpdate = HonorBoundConfigData.ConfigVersion.ToString();
+
+			if( this.VersionSinceUpdate == "" ) {
+				this.SetDefaults();
+			}
+
+			this.VersionSinceUpdate = mymod.Version.ToString();
 
 			return true;
 		}

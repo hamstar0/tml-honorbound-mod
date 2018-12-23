@@ -1,4 +1,5 @@
 ﻿using HamstarHelpers.Components.Config;
+using HamstarHelpers.Components.Errors;
 using HamstarHelpers.Helpers.DebugHelpers;
 using HonorBound.NetProtocol;
 using System;
@@ -22,7 +23,7 @@ namespace HonorBound {
 
 		public static void ReloadConfigFromFile() {
 			if( Main.netMode != 0 ) {
-				throw new Exception( "Cannot reload configs outside of single player." );
+				throw new HamstarException( "Cannot reload configs outside of single player." );
 			}
 			if( HonorBoundMod.Instance != null ) {
 				if( !HonorBoundMod.Instance.ConfigJson.LoadFile() ) {
@@ -33,7 +34,7 @@ namespace HonorBound {
 
 		public static void ResetConfigFromDefaults() {
 			if( Main.netMode != 0 ) {
-				throw new Exception( "Cannot reset to default configs outside of single player." );
+				throw new HamstarException( "Cannot reset to default configs outside of single player." );
 			}
 
 			var new_config = new HonorBoundConfigData();
@@ -91,7 +92,7 @@ namespace HonorBound {
 			}
 
 			if( this.ConfigJson.Data.UpdateToLatestVersion() ) {
-				ErrorLogger.Log( "Honor Bound updated to " + HonorBoundConfigData.ConfigVersion.ToString() );
+				ErrorLogger.Log( "Honor Bound updated to " + this.Version.ToString() );
 				this.ConfigJson.SaveFile();
 			}
 		}

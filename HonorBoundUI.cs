@@ -1,4 +1,5 @@
 ﻿using HamstarHelpers.Components.UI.Elements;
+using HamstarHelpers.Helpers.DebugHelpers;
 using HamstarHelpers.Helpers.HudHelpers;
 using HonorBound.NetProtocol;
 using Microsoft.Xna.Framework;
@@ -129,7 +130,7 @@ namespace HonorBound {
 			for_honor_button.Left.Set( 0f, 0 );
 			for_honor_button.Top.Set( top, 0f );
 			for_honor_button.OnClick += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
-				this.ActivateForHonor( (HonorBoundMod)ModLoader.GetMod("HonorBound") );
+				this.ActivateForHonor( HonorBoundMod.Instance );
 			};
 			for_honor_button.OnMouseOver += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
 				for_honor_button.BackgroundColor = HonorBoundUI.ButtonBodyLitColor;
@@ -146,7 +147,7 @@ namespace HonorBound {
 			no_honor_button.Left.Set( 0f, 0 );
 			no_honor_button.Top.Set( top, 0f );
 			no_honor_button.OnClick += delegate( UIMouseEvent evt, UIElement listeningElement ) {
-				this.ActivateNoHonor( (HonorBoundMod)ModLoader.GetMod("HonorBound") );
+				this.ActivateNoHonor( HonorBoundMod.Instance );
 			};
 			no_honor_button.OnMouseOver += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
 				no_honor_button.BackgroundColor = HonorBoundUI.ButtonBodyLitColor;

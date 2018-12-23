@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using HamstarHelpers.Components.Errors;
+using HamstarHelpers.Helpers.DebugHelpers;
+using HamstarHelpers.Helpers.WorldHelpers;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,12 +12,15 @@ namespace HonorBound {
 	class HonorBoundPlayer : ModPlayer {
 		private ISet<string> BegunWorldIds;
 
+		////////////////
+
+		public override bool CloneNewInstances => false;
+
 		public bool HasEnteredWorld { get; private set; }
 
 
-		////////////////
 
-		public override bool CloneNewInstances { get { return false; } }
+		////////////////
 
 		public override void Initialize() {
 			this.BegunWorldIds = new HashSet<string>();
@@ -68,7 +73,7 @@ namespace HonorBound {
 			if( modworld.Logic.IsHonorBound || modworld.Logic.IsDishonorable ) {
 				if( Main.netMode == 0 ) {   // Single
 					modworld.Logic.BeginGameModeForLocalPlayer( mymod );
-				} else if( Main.netMode == 1 && modworld.HasCorrectID ) {   // Client
+				} else if( Main.netMode == 1 ) {   // Client
 					modworld.Logic.BeginGameModeForLocalPlayer( mymod );
 				}
 			}
@@ -103,18 +108,16 @@ namespace HonorBound {
 
 		internal bool HasBegunCurrentWorld() {
 			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
-			if( !modworld.HasCorrectID ) { throw new Exception("Cannot check if game is running for player without world loaded."); }
-			if( !this.HasEnteredWorld ) { throw new Exception( "Cannot check if game is running for player if player hasn't joined game." ); }
+			if( !this.HasEnteredWorld ) { throw new HamstarException( "Cannot check if game is running for player if player hasn't joined game." ); }
 			
-			return this.BegunWorldIds.Contains( modworld.ID );
+			return this.BegunWorldIds.Contains( WorldHelpers.GetUniqueIdWithSeed() );
 		}
 
 		internal void Begin() {
 			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
-			if( !modworld.HasCorrectID ) { throw new Exception( "Cannot begin game for player without world loaded." ); }
-			if( !this.HasEnteredWorld ) { throw new Exception( "Cannot begin game if player hasn't joined game." ); }
+			if( !this.HasEnteredWorld ) { throw new HamstarException( "Cannot begin game if player hasn't joined game." ); }
 
-			this.BegunWorldIds.Add( modworld.ID );
+			this.BegunWorldIds.Add( WorldHelpers.GetUniqueIdWithSeed() );
 		}
 	}
 }
