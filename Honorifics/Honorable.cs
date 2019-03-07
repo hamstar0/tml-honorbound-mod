@@ -4,32 +4,32 @@
 namespace HonorBound.Honorifics {
 	class HonorableHonorificEntry : HonorificEntry {
 		public HonorableHonorificEntry() {
-			var lif_config = LosingIsFunAPI.GetModSettings();
-			var lif_default = new LosingIsFunConfigData();
-			int evac_time = lif_default.EvacWarpChargeDurationFrames;
+			var lifConfig = LosingIsFunAPI.GetModSettings();
+			var lifDefault = new LosingIsFunConfigData();
+			int evacTime = lifDefault.EvacWarpChargeDurationFrames;
 
 			this.Name = "Honorable";
 			this.Descriptions = new string[] {
-				"Recall/mirror warp requires " +(evac_time/60)+"s warmup delay.",
+				"Recall/mirror warp requires " +(evacTime/60)+"s warmup delay.",
 				"Nurse heals add a stacking debuff."
 			};
 		}
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lif_config = LosingIsFunAPI.GetModSettings();
-			var lif_default = new LosingIsFunConfigData();
+			var lifConfig = LosingIsFunAPI.GetModSettings();
+			var lifDefault = new LosingIsFunConfigData();
 
-			lif_config.EvacWarpChargeDurationFrames = lif_default.EvacWarpChargeDurationFrames;
-			lif_config.SorenessDurationSeconds = lif_default.SorenessDurationSeconds;
+			lifConfig.EvacWarpChargeDurationFrames = lifDefault.EvacWarpChargeDurationFrames;
+			lifConfig.SorenessDurationSeconds = lifDefault.SorenessDurationSeconds;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lif_config = LosingIsFunAPI.GetModSettings();
-			var lif_default = new LosingIsFunConfigData();
+			var lifConfig = LosingIsFunAPI.GetModSettings();
+			var lifDefault = new LosingIsFunConfigData();
 
-			lif_config.EvacWarpChargeDurationFrames = -1;
-			lif_config.SorenessDurationSeconds = lif_default.SorenessDurationSeconds;
+			lifConfig.EvacWarpChargeDurationFrames = -1;
+			lifConfig.SorenessDurationSeconds = lifDefault.SorenessDurationSeconds;
 		}
 	}
 }

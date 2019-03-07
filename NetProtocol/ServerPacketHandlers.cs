@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace HonorBound.NetProtocol {
 	static class ServerPacketHandlers {
-		public static void HandlePacket( HonorBoundMod mymod, BinaryReader reader, int player_who ) {
+		public static void HandlePacket( BinaryReader reader, int playerWho ) {
 			NetProtocolTypes protocol = (NetProtocolTypes)reader.ReadByte();
 
 			switch( protocol ) {
@@ -16,7 +16,7 @@ namespace HonorBound.NetProtocol {
 				HonorBoundNetProtocol.ReceiveSettingsWithClient( mymod, reader );
 				break; */
 			case NetProtocolTypes.ReceiveHonorSettingsWithServer:
-				ServerPacketHandlers.ReceiveHonorSettingsRequestWithServer( mymod, reader );
+				ServerPacketHandlers.ReceiveHonorSettingsRequestWithServer( reader );
 				break;
 			default:
 				/*if( mymod.IsDebugInfoMode() ) {*/ LogHelpers.Log( "RouteReceivedServerPackets ...? " + protocol ); //}
@@ -41,9 +41,10 @@ namespace HonorBound.NetProtocol {
 			packet.Send( (int)player.whoAmI );
 		}*/
 
-		public static void SendHonorSettingsFromServer( HonorBoundMod mymod, Player player ) {
+		public static void SendHonorSettingsFromServer( Player player ) {
 			if( Main.netMode != 2 ) { return; } // Server only
 
+			var mymod = HonorBoundMod.Instance;
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
 			ModPacket packet = mymod.GetPacket();
@@ -58,8 +59,8 @@ namespace HonorBound.NetProtocol {
 
 			packet.Send( (int)player.whoAmI );
 
-			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
-				ErrorLogger.Log( "SendHonorSettingsFromServer - IsHonorBound:" + mylogic.IsHonorBound +
+			if( mymod.ConfigJson.Data.DebugModeInfo ) {
+				LogHelpers.Alert( "IsHonorBound:" + mylogic.IsHonorBound +
 					" IsDishonorable:" + mylogic.IsDishonorable +
 					" CurrentActiveHonorifics:" + String.Join( ",", mylogic.CurrentActiveHonorifics ) );
 			}
@@ -84,56 +85,58 @@ namespace HonorBound.NetProtocol {
 			HonorBoundNetProtocol.SendSettingsFromServer( mymod, Main.player[who] );
 		}*/
 
-		private static void ReceiveHonorSettingsRequestWithServer( HonorBoundMod mymod, BinaryReader reader ) {
+		private static void ReceiveHonorSettingsRequestWithServer( BinaryReader reader ) {
 			if( Main.netMode != 2 ) { return; } // Server only
 
+			var mymod = HonorBoundMod.Instance;
 			int who = reader.ReadInt32();
 
 			if( who < 0 || who >= Main.player.Length || Main.player[who] == null ) {
-				ErrorLogger.Log( "HonorBoundNetProtocol.ReceiveSettingsRequestOnServer - Invalid player whoAmI. " + who );
+				LogHelpers.Warn( "invalid player whoAmI. " + who );
 				return;
 			}
 
-			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
-				ErrorLogger.Log( "ReceiveHonorSettingsRequestWithServer - who:" + who );
+			if( mymod.ConfigJson.Data.DebugModeInfo ) {
+				LogHelpers.Alert( "who:" + who );
 			}
 
-			ServerPacketHandlers.SendHonorSettingsFromServer( mymod, Main.player[who] );
+			ServerPacketHandlers.SendHonorSettingsFromServer( Main.player[who] );
 		}
 
-		public static void ReceiveHonorSettingsWithServer( HonorBoundMod mymod, BinaryReader reader ) {
+		public static void ReceiveHonorSettingsWithServer( BinaryReader reader ) {
 			if( Main.netMode != 2 ) { return; } // Server only
 
-			int who_from = reader.ReadInt32();
-			bool is_honor_bound = reader.ReadBoolean();
-			bool has_no_honor = reader.ReadBoolean();
-			int num_honorifics = reader.ReadInt32();
+			var mymod = HonorBoundMod.Instance;
+			int whoFrom = reader.ReadInt32();
+			bool isHonorBound = reader.ReadBoolean();
+			bool hasNoHonor = reader.ReadBoolean();
+			int numHonorifics = reader.ReadInt32();
 
 			ISet<string> honorifics = new HashSet<string>();
-			for( int i = 0; i < num_honorifics; i++ ) {
+			for( int i = 0; i < numHonorifics; i++ ) {
 				honorifics.Add( reader.ReadString() );
 			}
 
-			if( who_from < 0 || who_from >= Main.player.Length || Main.player[who_from] == null ) {
-				ErrorLogger.Log( "HonorBoundNetProtocol.ReceiveHonorSettingsWithServer - Invalid player whoAmI. " + who_from );
+			if( whoFrom < 0 || whoFrom >= Main.player.Length || Main.player[whoFrom] == null ) {
+				LogHelpers.Warn( "Invalid player whoAmI. " + whoFrom );
 				return;
 			}
 
-			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
-				ErrorLogger.Log( "ReceiveHonorSettingsWithServer - who_from: " + who_from +
-					" is_honor_bound:" + is_honor_bound +
-					" has_no_honor:" + has_no_honor +
-					" num_honorifics: " + num_honorifics +
+			if( mymod.ConfigJson.Data.DebugModeInfo ) {
+				LogHelpers.Alert( "whoFrom: " + whoFrom +
+					" isHonorBound:" + isHonorBound +
+					" hasNoHonor:" + hasNoHonor +
+					" numHonorifics: " + numHonorifics +
 					" honorifics:" + String.Join( ",", honorifics ) );
 			}
 
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
-			modworld.Logic = new HonorBoundLogic( mymod, is_honor_bound, has_no_honor, honorifics );
+			modworld.Logic = new HonorBoundLogic( isHonorBound, hasNoHonor, honorifics );
 
 			for( int i = 0; i < Main.player.Length; i++ ) {
 				Player player = Main.player[i];
-				if( player != null && player.active && i != who_from ) {
-					ServerPacketHandlers.SendHonorSettingsFromServer( mymod, player );
+				if( player != null && player.active && i != whoFrom ) {
+					ServerPacketHandlers.SendHonorSettingsFromServer( player );
 				}
 			}
 		}

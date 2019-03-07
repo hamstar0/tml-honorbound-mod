@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace HonorBound.NetProtocol {
 	static class ClientPacketHandlers {
-		public static void HandlePacket( HonorBoundMod mymod, BinaryReader reader ) {
+		public static void HandlePacket( BinaryReader reader ) {
 			NetProtocolTypes protocol = (NetProtocolTypes)reader.ReadByte();
 
 			switch( protocol ) {
@@ -16,7 +16,7 @@ namespace HonorBound.NetProtocol {
 				HonorBoundNetProtocol.ReceiveSettingsRequestWithServer( mymod, reader );
 				break;*/
 			case NetProtocolTypes.ReceiveHonorSettingsWithClient:
-				ClientPacketHandlers.ReceiveHonorSettingsWithClient( mymod, reader );
+				ClientPacketHandlers.ReceiveHonorSettingsWithClient( reader );
 				break;
 			default:
 				/*if( mymod.IsDebugInfoMode() ) {*/ LogHelpers.Log( "RouteReceivedClientPackets ...? "+protocol ); //}
@@ -40,9 +40,10 @@ namespace HonorBound.NetProtocol {
 			packet.Send();
 		}*/
 
-		public static void SendHonorSettingsFromClient( HonorBoundMod mymod, Player player ) {
+		public static void SendHonorSettingsFromClient( Player player ) {
 			if( Main.netMode != 1 ) { return; } // Clients only
 
+			var mymod = HonorBoundMod.Instance;
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
 			ModPacket packet = mymod.GetPacket();
@@ -58,8 +59,8 @@ namespace HonorBound.NetProtocol {
 
 			packet.Send( -1 );
 
-			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
-				ErrorLogger.Log( "SendHonorSettingsFromClient - IsHonorBound:" + mylogic.IsHonorBound +
+			if( mymod.ConfigJson.Data.DebugModeInfo ) {
+				LogHelpers.Alert( "IsHonorBound:" + mylogic.IsHonorBound +
 					" IsDishonorable:" + mylogic.IsDishonorable +
 					" CurrentActiveHonorifics:" + String.Join( ",", mylogic.CurrentActiveHonorifics ) );
 			}
@@ -77,27 +78,28 @@ namespace HonorBound.NetProtocol {
 			mymod.Config.DeserializeMe( reader.ReadString() );
 		}*/
 
-		public static void ReceiveHonorSettingsWithClient( HonorBoundMod mymod, BinaryReader reader ) {
+		public static void ReceiveHonorSettingsWithClient( BinaryReader reader ) {
 			if( Main.netMode != 1 ) { return; } // Clients only
 
-			bool is_honor_bound = reader.ReadBoolean();
-			bool has_no_honor = reader.ReadBoolean();
-			int num_honorifics = reader.ReadInt32();
+			var mymod = HonorBoundMod.Instance;
+			bool isHonorBound = reader.ReadBoolean();
+			bool hasNoHonor = reader.ReadBoolean();
+			int numHonorifics = reader.ReadInt32();
 
 			ISet<string> honorifics = new HashSet<string>();
-			for( int i = 0; i < num_honorifics; i++ ) {
+			for( int i = 0; i < numHonorifics; i++ ) {
 				honorifics.Add( reader.ReadString() );
 			}
 
-			if( (mymod.ConfigJson.Data.DEBUGMODE & 1) != 0 ) {
-				ErrorLogger.Log( "ReceiveHonorSettingsWithClient - is_honor_bound:" + is_honor_bound +
-					" has_no_honor:" + has_no_honor +
-					" num_honorifics: " + num_honorifics +
+			if( mymod.ConfigJson.Data.DebugModeInfo ) {
+				LogHelpers.Alert( "isHonorBound:" + isHonorBound +
+					" hasNoHonor:" + hasNoHonor +
+					" numHonorifics: " + numHonorifics +
 					" honorifics:" + String.Join( ",", honorifics ) );
 			}
 
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
-			modworld.Logic = new HonorBoundLogic( mymod, is_honor_bound, has_no_honor, honorifics );
+			modworld.Logic = new HonorBoundLogic( isHonorBound, hasNoHonor, honorifics );
 		}
 	}
 }

@@ -14,19 +14,19 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var inj_config = InjuryAPI.GetModSettings();
-			var liv_config = LivesAPI.GetModSettings();
+			var injConfig = InjuryAPI.GetModSettings();
+			var livConfig = LivesAPI.GetModSettings();
 
-			inj_config.CraftableLifeCrystal = false;
-			liv_config.CraftableExtraLives = false;
+			injConfig.CraftableLifeCrystal = false;
+			livConfig.CraftableExtraLives = false;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var inj_config = InjuryAPI.GetModSettings();
-			var liv_config = LivesAPI.GetModSettings();
+			var injConfig = InjuryAPI.GetModSettings();
+			var livConfig = LivesAPI.GetModSettings();
 
-			inj_config.CraftableLifeCrystal = true;
-			liv_config.CraftableExtraLives = true;
+			injConfig.CraftableLifeCrystal = true;
+			livConfig.CraftableExtraLives = true;
 		}
 	}
 }

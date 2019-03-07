@@ -33,6 +33,8 @@ namespace HonorBound {
 
 
 
+		////////////////
+
 		public HonorBoundUI() {
 			this.Backend = new UserInterface();
 			this.IsOpen = false;
@@ -52,9 +54,9 @@ namespace HonorBound {
 			this.Backend.Recalculate();
 		}
 
-		public void UpdateBackend( GameTime game_time ) {
+		public void UpdateBackend( GameTime gameTime ) {
 			if( !this.HasBeenSetup ) { return; }
-			this.Backend.Update( game_time );
+			this.Backend.Update( gameTime );
 		}
 
 		protected override void DrawSelf( SpriteBatch sb ) {
@@ -95,67 +97,67 @@ namespace HonorBound {
 				top += 20f;
 				
 				string honorific = kv.Key;
-				var ui_option = new UICheckbox( honorific, String.Join("\n", kv.Value.Descriptions) );
+				var uiOption = new UICheckbox( honorific, String.Join("\n", kv.Value.Descriptions) );
 
-				ui_option.Top.Set( top, 0f );
-				ui_option.SetText( "    "+honorific, 0.8f, false );
-				ui_option.TextColor = Color.Gray;
+				uiOption.Top.Set( top, 0f );
+				uiOption.SetText( "    "+honorific, 0.8f, false );
+				uiOption.TextColor = Color.Gray;
 
-				ui_option.OnSelectedChanged += delegate () {
+				uiOption.OnSelectedChanged += delegate () {
 					mymod = (HonorBoundMod)ModLoader.GetMod( "HonorBound" );
 					myworld = mymod.GetModWorld<HonorBoundWorld>();
 					
-					if( ui_option.Selected ) {
+					if( uiOption.Selected ) {
 						myworld.Logic.CurrentActiveHonorifics.Add( honorific );
 					} else {
 						myworld.Logic.CurrentActiveHonorifics.Remove( honorific );
 					}
 				};
 
-				this.Options[ honorific ] = ui_option;
-				this.MainPanel.Append( ui_option );
+				this.Options[ honorific ] = uiOption;
+				this.MainPanel.Append( uiOption );
 			}
 			
 			top += 20f;
-			var honor_warn_text = new UIText( "Warning: Settings are permanent for your\nworld when honor bound.\nSelect 'No Honor' to play only vanilla.", 0.7f );
-			honor_warn_text.Top.Set( top, 0f );
-			honor_warn_text.Left.Set( 0, 0f );
-			honor_warn_text.TextColor = Color.Yellow;
-			this.MainPanel.Append( honor_warn_text );
+			var honorWarnText = new UIText( "Warning: Settings are permanent for your\nworld when honor bound.\nSelect 'No Honor' to play only vanilla.", 0.7f );
+			honorWarnText.Top.Set( top, 0f );
+			honorWarnText.Left.Set( 0, 0f );
+			honorWarnText.TextColor = Color.Yellow;
+			this.MainPanel.Append( honorWarnText );
 
 			top += 56f;
-			var for_honor_button = new UITextPanel<string>( "For Honor!" );
-			for_honor_button.SetPadding( 4f );
-			for_honor_button.Width.Set( HonorBoundUI.PanelWidth - 24f, 0f );
-			for_honor_button.Left.Set( 0f, 0 );
-			for_honor_button.Top.Set( top, 0f );
-			for_honor_button.OnClick += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
-				this.ActivateForHonor( HonorBoundMod.Instance );
+			var forHonorButton = new UITextPanel<string>( "For Honor!" );
+			forHonorButton.SetPadding( 4f );
+			forHonorButton.Width.Set( HonorBoundUI.PanelWidth - 24f, 0f );
+			forHonorButton.Left.Set( 0f, 0 );
+			forHonorButton.Top.Set( top, 0f );
+			forHonorButton.OnClick += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
+				this.ActivateForHonor();
 			};
-			for_honor_button.OnMouseOver += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
-				for_honor_button.BackgroundColor = HonorBoundUI.ButtonBodyLitColor;
+			forHonorButton.OnMouseOver += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
+				forHonorButton.BackgroundColor = HonorBoundUI.ButtonBodyLitColor;
 			};
-			for_honor_button.OnMouseOut += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
-				for_honor_button.BackgroundColor = HonorBoundUI.ButtonBodyColor;
+			forHonorButton.OnMouseOut += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
+				forHonorButton.BackgroundColor = HonorBoundUI.ButtonBodyColor;
 			};
-			this.MainPanel.Append( for_honor_button );
+			this.MainPanel.Append( forHonorButton );
 			
 			top += 32f;
-			var no_honor_button = new UITextPanel<string>( "No Honor..." );
-			no_honor_button.SetPadding( 4f );
-			no_honor_button.Width.Set( HonorBoundUI.PanelWidth - 24f, 0f );
-			no_honor_button.Left.Set( 0f, 0 );
-			no_honor_button.Top.Set( top, 0f );
-			no_honor_button.OnClick += delegate( UIMouseEvent evt, UIElement listeningElement ) {
-				this.ActivateNoHonor( HonorBoundMod.Instance );
+			var noHonorButton = new UITextPanel<string>( "No Honor..." );
+			noHonorButton.SetPadding( 4f );
+			noHonorButton.Width.Set( HonorBoundUI.PanelWidth - 24f, 0f );
+			noHonorButton.Left.Set( 0f, 0 );
+			noHonorButton.Top.Set( top, 0f );
+			noHonorButton.OnClick += delegate( UIMouseEvent evt, UIElement listeningElement ) {
+				this.ActivateNoHonor();
 			};
-			no_honor_button.OnMouseOver += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
-				no_honor_button.BackgroundColor = HonorBoundUI.ButtonBodyLitColor;
+			noHonorButton.OnMouseOver += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
+				noHonorButton.BackgroundColor = HonorBoundUI.ButtonBodyLitColor;
 			};
-			no_honor_button.OnMouseOut += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
-				no_honor_button.BackgroundColor = HonorBoundUI.ButtonBodyColor;
+			noHonorButton.OnMouseOut += delegate ( UIMouseEvent evt, UIElement listeningElement ) {
+				noHonorButton.BackgroundColor = HonorBoundUI.ButtonBodyColor;
 			};
-			this.MainPanel.Append( no_honor_button );
+			this.MainPanel.Append( noHonorButton );
 			
 			this.Append( this.MainPanel );
 		}
@@ -173,22 +175,22 @@ namespace HonorBound {
 		public void RefreshAllowedOptions( HonorBoundLogic logic ) {
 			if( !this.HasBeenSetup ) { return; }
 
-			bool has_changed = false;
+			bool hasChanged = false;
 
 			foreach( var kv in logic.HonorificAllowed ) {
 				string honorific = kv.Key;
-				bool is_allowed = kv.Value;
+				bool isAllowed = kv.Value;
 
-				if( !is_allowed && this.Options.ContainsKey( honorific ) ) {
+				if( !isAllowed && this.Options.ContainsKey( honorific ) ) {
 					var option = this.Options[honorific];
 
 					this.MainPanel.RemoveChild( option );
 					this.Options.Remove( honorific );
-					has_changed = true;
+					hasChanged = true;
 				}
 			}
 
-			if( has_changed ) {
+			if( hasChanged ) {
 				this.Backend.Recalculate();
 			}
 		}
@@ -221,17 +223,17 @@ namespace HonorBound {
 
 		public void DrawToggler( SpriteBatch sb ) {
 			Vector2 pos, size;
-			Color body_color = HonorBoundUI.ButtonBodyColor;
-			Color edge_color = HonorBoundUI.ButtonEdgeColor;
+			Color bodyColor = HonorBoundUI.ButtonBodyColor;
+			Color edgeColor = HonorBoundUI.ButtonEdgeColor;
 
-			if( this.IsTogglerLit ) { body_color = HonorBoundUI.ButtonBodyLitColor; }
+			if( this.IsTogglerLit ) { bodyColor = HonorBoundUI.ButtonBodyLitColor; }
 			this.GetTogglerDimensions( out pos, out size );
 			
-			HudHelpers.DrawBorderedRect( sb, body_color, edge_color, pos, size, 2 );
+			HudHelpers.DrawBorderedRect( sb, bodyColor, edgeColor, pos, size, 2 );
 		}
 		
 		public void CheckTogglerMouseInteraction() {
-			bool is_click = Main.mouseLeft && Main.mouseLeftRelease;
+			bool isClick = Main.mouseLeft && Main.mouseLeftRelease;
 			bool lit = false;
 			Vector2 pos, size;
 
@@ -239,7 +241,7 @@ namespace HonorBound {
 			
 			if( Main.mouseX >= pos.X && Main.mouseX < (pos.X+size.X) ) {
 				if( Main.mouseY >= pos.Y && Main.mouseY < (pos.Y + size.Y) ) {
-					if( is_click ) {
+					if( isClick ) {
 						if( this.IsOpen ) { this.Close(); }
 						else { this.Open(); }
 					} else {
@@ -254,27 +256,29 @@ namespace HonorBound {
 
 		////////////////
 
-		private void ActivateForHonor( HonorBoundMod mymod ) {
+		private void ActivateForHonor() {
+			var mymod = HonorBoundMod.Instance;
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
 			
 			mylogic.ForHonor();
-			mylogic.BeginGameModeForLocalPlayer( mymod );
+			mylogic.BeginGameModeForLocalPlayer();
 
 			if( Main.netMode == 1 ) {   // Client
-				ClientPacketHandlers.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
+				ClientPacketHandlers.SendHonorSettingsFromClient( Main.LocalPlayer );
 			}
 		}
 
-		private void ActivateNoHonor( HonorBoundMod mymod ) {
+		private void ActivateNoHonor() {
+			var mymod = HonorBoundMod.Instance;
 			var modworld = mymod.GetModWorld<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
 			
 			mylogic.NoHonor();
-			mylogic.BeginGameModeForLocalPlayer( mymod );
+			mylogic.BeginGameModeForLocalPlayer();
 
 			if( Main.netMode == 1 ) {   // Client
-				ClientPacketHandlers.SendHonorSettingsFromClient( mymod, Main.LocalPlayer );
+				ClientPacketHandlers.SendHonorSettingsFromClient( Main.LocalPlayer );
 			}
 		}
 	}

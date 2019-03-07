@@ -12,19 +12,19 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lif_config = LosingIsFunAPI.GetModSettings();
-			var lif_default = new LosingIsFunConfigData();
+			var lifConfig = LosingIsFunAPI.GetModSettings();
+			var lifDefault = new LosingIsFunConfigData();
 
-			lif_config.MinimumRatioTownNPCSolidBlocks = lif_default.MinimumRatioTownNPCSolidBlocks;
-			lif_config.MinimumTownNpcTileSpacing = lif_default.MinimumTownNpcTileSpacing;
+			lifConfig.MinimumRatioTownNPCSolidBlocks = lifDefault.MinimumRatioTownNPCSolidBlocks;
+			lifConfig.MinimumTownNpcTileSpacing = lifDefault.MinimumTownNpcTileSpacing;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lif_config = LosingIsFunAPI.GetModSettings();
-			var lif_default = new LosingIsFunConfigData();
+			var lifConfig = LosingIsFunAPI.GetModSettings();
+			var lifDefault = new LosingIsFunConfigData();
 
-			lif_config.MinimumRatioTownNPCSolidBlocks = 0;
-			lif_config.MinimumTownNpcTileSpacing = 0;
+			lifConfig.MinimumRatioTownNPCSolidBlocks = 0;
+			lifConfig.MinimumTownNpcTileSpacing = 0;
 		}
 	}
 }

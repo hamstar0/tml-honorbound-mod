@@ -6,44 +6,44 @@ using Terraria;
 namespace HonorBound.Honorifics {
 	class SurvivorHonorificEntry : HonorificEntry {
 		public SurvivorHonorificEntry() {
-			var liv_default = new LivesConfigData();
+			var livDefault = new LivesConfigData();
 
 			this.Name = "Survivor";
 			this.Descriptions = new string[] {
-				liv_default.InitialLives+" starting lives only (otherwise 10)."
+				livDefault.InitialLives+" starting lives only (otherwise 10)."
 			};
 		}
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var liv_config = LivesAPI.GetModSettings();
-			var liv_default = new LivesConfigData();
+			var livConfig = LivesAPI.GetModSettings();
+			var livDefault = new LivesConfigData();
 
-			liv_config.InitialLives = liv_default.InitialLives;
+			livConfig.InitialLives = livDefault.InitialLives;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var liv_config = LivesAPI.GetModSettings();
+			var livConfig = LivesAPI.GetModSettings();
 
-			liv_config.InitialLives = 10;
+			livConfig.InitialLives = 10;
 		}
 
 		
 		public override void BegunWorldOn( HonorBoundLogic logic ) {
 			if( Main.netMode != 2 ) {
-				var liv_config = LivesAPI.GetModSettings();
-				int base_lives = LivesAPI.GetLives( Main.LocalPlayer );
+				var livConfig = LivesAPI.GetModSettings();
+				int baseLives = LivesAPI.GetLives( Main.LocalPlayer );
 				
-				LivesAPI.AddLives( Main.LocalPlayer, liv_config.InitialLives - base_lives );
+				LivesAPI.AddLives( Main.LocalPlayer, livConfig.InitialLives - baseLives );
 			}
 		}
 
 		public override void BegunWorldOff( HonorBoundLogic logic ) {
 			if( Main.netMode != 2 ) {
-				var liv_config = LivesAPI.GetModSettings();
-				int base_lives = LivesAPI.GetLives( Main.LocalPlayer );
+				var livConfig = LivesAPI.GetModSettings();
+				int baseLives = LivesAPI.GetLives( Main.LocalPlayer );
 
-				LivesAPI.AddLives( Main.LocalPlayer, liv_config.InitialLives - base_lives );
+				LivesAPI.AddLives( Main.LocalPlayer, livConfig.InitialLives - baseLives );
 			}
 		}
 	}

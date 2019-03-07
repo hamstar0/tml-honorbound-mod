@@ -13,19 +13,19 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var dur_config = DurabilityAPI.GetModSettings();
-			var dur_default = new DurabilityConfigData();
+			var durConfig = DurabilityAPI.GetModSettings();
+			var durDefault = new DurabilityConfigData();
 
-			dur_config.GeneralWearAndTearMultiplier = dur_default.GeneralWearAndTearMultiplier;
-			dur_config.MaxDurabilityLostPerRepair = dur_default.MaxDurabilityLostPerRepair;
+			durConfig.GeneralWearAndTearMultiplier = durDefault.GeneralWearAndTearMultiplier;
+			durConfig.MaxDurabilityLostPerRepair = durDefault.MaxDurabilityLostPerRepair;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var dur_config = DurabilityAPI.GetModSettings();
-			var dur_default = new DurabilityConfigData();
+			var durConfig = DurabilityAPI.GetModSettings();
+			var durDefault = new DurabilityConfigData();
 
-			dur_config.GeneralWearAndTearMultiplier = dur_default.GeneralWearAndTearMultiplier * 2;
-			dur_config.MaxDurabilityLostPerRepair = 0;
+			durConfig.GeneralWearAndTearMultiplier = durDefault.GeneralWearAndTearMultiplier * 2;
+			durConfig.MaxDurabilityLostPerRepair = 0;
 		}
 	}
 }

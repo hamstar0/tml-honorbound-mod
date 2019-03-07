@@ -72,9 +72,9 @@ namespace HonorBound {
 
 			if( modworld.Logic.IsHonorBound || modworld.Logic.IsDishonorable ) {
 				if( Main.netMode == 0 ) {   // Single
-					modworld.Logic.BeginGameModeForLocalPlayer( mymod );
+					modworld.Logic.BeginGameModeForLocalPlayer();
 				} else if( Main.netMode == 1 ) {   // Client
-					modworld.Logic.BeginGameModeForLocalPlayer( mymod );
+					modworld.Logic.BeginGameModeForLocalPlayer();
 				}
 			}
 		}
@@ -97,7 +97,7 @@ namespace HonorBound {
 			int i = 0;
 
 			foreach( string guid in this.BegunWorldIds ) {
-				tags.Set( "begun_world_id_" + i, guid );
+				tags[ "begun_world_id_" + i ] = guid;
 				i++;
 			}
 			return tags;
@@ -110,14 +110,14 @@ namespace HonorBound {
 			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
 			if( !this.HasEnteredWorld ) { throw new HamstarException( "Cannot check if game is running for player if player hasn't joined game." ); }
 			
-			return this.BegunWorldIds.Contains( WorldHelpers.GetUniqueIdWithSeed() );
+			return this.BegunWorldIds.Contains( WorldHelpers.GetUniqueId(true) );
 		}
 
 		internal void Begin() {
 			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
 			if( !this.HasEnteredWorld ) { throw new HamstarException( "Cannot begin game if player hasn't joined game." ); }
 
-			this.BegunWorldIds.Add( WorldHelpers.GetUniqueIdWithSeed() );
+			this.BegunWorldIds.Add( WorldHelpers.GetUniqueId(true) );
 		}
 	}
 }

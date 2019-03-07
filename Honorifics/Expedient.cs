@@ -4,11 +4,11 @@
 namespace HonorBound.Honorifics {
 	class ExpedientHonorificEntry : HonorificEntry {
 		public ExpedientHonorificEntry() {
-			var lun_default = new LunaticConfigData();
+			var lunDefault = new LunaticConfigData();
 
 			this.Name = "Expedient";
 			this.Descriptions = new string[] {
-				"Lunatic gives only +1 day apocalypse delay for each mask (otherwise +"+(lun_default.HalfDaysRecoveredPerMask/2f)+" days)."
+				"Lunatic gives only +1 day apocalypse delay for each mask (otherwise +"+(lunDefault.HalfDaysRecoveredPerMask/2f)+" days)."
 			};
 		}
 
@@ -21,9 +21,9 @@ namespace HonorBound.Honorifics {
 
 		public override void LoadOff( HonorBoundLogic logic ) {
 			var config = TheLunaticAPI.GetModSettings();
-			var lun_default = new LunaticConfigData();
+			var lunDefault = new LunaticConfigData();
 
-			config.HalfDaysRecoveredPerMask = lun_default.HalfDaysRecoveredPerMask;
+			config.HalfDaysRecoveredPerMask = lunDefault.HalfDaysRecoveredPerMask;
 		}
 	}
 }

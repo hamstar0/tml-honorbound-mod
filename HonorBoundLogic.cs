@@ -43,6 +43,7 @@ namespace HonorBound {
 		public IDictionary<string, bool> HonorificAllowed = new Dictionary<string, bool>();
 		
 
+
 		////////////////
 
 		static HonorBoundLogic() {
@@ -71,6 +72,7 @@ namespace HonorBound {
 		}
 
 
+
 		////////////////
 
 		public ISet<string> CurrentActiveHonorifics = new HashSet<string>();
@@ -82,18 +84,22 @@ namespace HonorBound {
 
 
 
-		internal HonorBoundLogic( HonorBoundMod mymod, bool is_honor_bound, bool has_no_honor, ISet<string> honorifics ) {
+		////////////////
+
+		internal HonorBoundLogic( bool isHonorBound, bool hasNoHonor, ISet<string> honorifics ) {
 			foreach( var kv in HonorBoundLogic.Honorifics ) {
 				this.HonorificAllowed[ kv.Key ] = true;
 			}
 
-			if( mymod.IsDebugReset() ) {
+			var mymod = HonorBoundMod.Instance;
+
+			if( mymod.ConfigJson.Data.DebugModeReset ) {
 				this.IsHonorBound = false;
 				this.IsDishonorable = false;
 				this.CurrentActiveHonorifics = new HashSet<string>();
 			} else {
-				this.IsHonorBound = is_honor_bound;
-				this.IsDishonorable = has_no_honor;
+				this.IsHonorBound = isHonorBound;
+				this.IsDishonorable = hasNoHonor;
 				this.CurrentActiveHonorifics = honorifics;
 
 				if( mymod.NeedsUpdateBecauseNewModVersion ) {
@@ -142,30 +148,30 @@ namespace HonorBound {
 
 		////////////////
 		
-		internal void BeginGameModeForLocalPlayer( HonorBoundMod mymod ) {
-			if( this.IsGameModeBegun ) { throw new HamstarException( "BeginGameModeForLocalPlayer() - Already begun." ); }
-
+		internal void BeginGameModeForLocalPlayer() {
+			if( this.IsGameModeBegun ) { throw new HamstarException( "Already begun." ); }
+			
 			if( this.IsHonorBound ) {
-				this.ApplyHonorifics( mymod );
+				this.ApplyHonorifics();
 			} else if( this.IsDishonorable ) {
-				this.ApplyDishonorability( mymod );
+				this.ApplyDishonorability();
 			}
 			this.IsGameModeBegun = true;
 		}
 
 		internal void ForHonor() {
-			if( this.IsGameModeBegun ) { throw new HamstarException( "ForHonor() - Already begun." ); }
+			if( this.IsGameModeBegun ) { throw new HamstarException( "Already begun." ); }
 			this.IsHonorBound = true;
 		}
 
 		internal void NoHonor() {
-			if( this.IsGameModeBegun ) { throw new HamstarException( "NoHonor() - Already begun." ); }
+			if( this.IsGameModeBegun ) { throw new HamstarException( "Already begun." ); }
 			this.IsDishonorable = true;
 		}
 
 		////////////////
 
-		private void ApplyHonorifics( HonorBoundMod mymod ) {
+		private void ApplyHonorifics() {
 			var skipped = HonorBoundLogic.Honorifics.Keys.Where( x => !this.CurrentActiveHonorifics.Contains( x ) );
 			
 			this.EnableMods( true );
@@ -186,7 +192,7 @@ namespace HonorBound {
 			
 			if( Main.netMode != 2 ) {   // Not server
 				var player = Main.LocalPlayer;
-				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
+				var modplayer = player.GetModPlayer<HonorBoundPlayer>();
 				
 				if( !modplayer.HasBegunCurrentWorld() ) {
 					foreach( string honorific in this.CurrentActiveHonorifics ) {
@@ -205,12 +211,12 @@ namespace HonorBound {
 			this.AnnounceHonorifics();
 		}
 
-		private void ApplyDishonorability( HonorBoundMod mymod ) {
+		private void ApplyDishonorability() {
 			this.EnableMods( false );
 
 			if( Main.netMode != 2 ) {   // Not server
 				var player = Main.LocalPlayer;
-				var modplayer = player.GetModPlayer<HonorBoundPlayer>( mymod );
+				var modplayer = player.GetModPlayer<HonorBoundPlayer>();
 
 				if( !modplayer.HasBegunCurrentWorld() ) {
 					modplayer.Begin();
@@ -225,19 +231,19 @@ namespace HonorBound {
 
 		public void AnnounceHonorifics() {
 			int i = 0;
-			string honorifics_list = "";
+			string honorificsList = "";
 			foreach( string honorific in this.CurrentActiveHonorifics ) {
-				honorifics_list += honorific;
+				honorificsList += honorific;
 
 				if( i < this.CurrentActiveHonorifics.Count - 1 ) {
-					honorifics_list += ", ";
+					honorificsList += ", ";
 					if( i > 0 && i % 5 == 0 ) {
-						honorifics_list += '\n';
+						honorificsList += '\n';
 					}
 				}
 				i++;
 			}
-			SimpleMessage.PostMessage( "The following honor codes are now in effect:", honorifics_list, 15 * 60 );
+			SimpleMessage.PostMessage( "The following honor codes are now in effect:", honorificsList, 15 * 60 );
 			Main.PlaySound( SoundID.Item47.WithVolume( 0.5f ) );
 		}
 

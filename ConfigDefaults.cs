@@ -11,9 +11,10 @@ namespace HonorBound {
 
 		public string VersionSinceUpdate = "";
 
-		public bool Enabled = true;
+		public bool DebugModeInfo = false;
+		public bool DebugModeReset = false;
 
-		public int DEBUGMODE = 0;   // 1: Info; 2: Reset
+		public bool Enabled = true;
 
 
 
@@ -45,9 +46,5 @@ namespace HonorBound {
 
 			return true;
 		}
-
-		////////////////
-
-		public string _OLD_SETTINGS_BELOW = "";
 	}
 }

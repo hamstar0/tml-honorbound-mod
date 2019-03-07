@@ -1,6 +1,7 @@
 ﻿using HamstarHelpers.Components.Config;
 using HamstarHelpers.Components.Errors;
 using HamstarHelpers.Helpers.DebugHelpers;
+using HamstarHelpers.Helpers.TmlHelpers.ModHelpers;
 using HonorBound.NetProtocol;
 using System;
 using System.Collections.Generic;
@@ -11,44 +12,15 @@ using Terraria.UI;
 
 
 namespace HonorBound {
-	class HonorBoundMod : Mod {
+	partial class HonorBoundMod : Mod {
 		public static HonorBoundMod Instance { get; private set; }
 
-		public static string GithubUserName { get { return "hamstar0"; } }
-		public static string GithubProjectName { get { return "tml-honorbound-mod"; } }
-
-		public static string ConfigFileRelativePath {
-			get { return ConfigurationDataBase.RelativePath + Path.DirectorySeparatorChar + HonorBoundConfigData.ConfigFileName; }
-		}
-
-		public static void ReloadConfigFromFile() {
-			if( Main.netMode != 0 ) {
-				throw new HamstarException( "Cannot reload configs outside of single player." );
-			}
-			if( HonorBoundMod.Instance != null ) {
-				if( !HonorBoundMod.Instance.ConfigJson.LoadFile() ) {
-					HonorBoundMod.Instance.ConfigJson.SaveFile();
-				}
-			}
-		}
-
-		public static void ResetConfigFromDefaults() {
-			if( Main.netMode != 0 ) {
-				throw new HamstarException( "Cannot reset to default configs outside of single player." );
-			}
-
-			var new_config = new HonorBoundConfigData();
-			//new_config.SetDefaults();
-
-			HonorBoundMod.Instance.ConfigJson.SetData( new_config );
-			HonorBoundMod.Instance.ConfigJson.SaveFile();
-		}
 
 
 		////////////////
 
 		public JsonConfig<HonorBoundConfigData> ConfigJson { get; private set; }
-		public HonorBoundConfigData Config { get { return this.ConfigJson.Data; } }
+		public HonorBoundConfigData Config => this.ConfigJson.Data;
 
 		public HonorBoundUI UI = null;
 		private int LastSeenScreenWidth = -1;
@@ -57,16 +29,15 @@ namespace HonorBound {
 		internal bool NeedsUpdateBecauseNewModVersion = false;
 
 
+
 		////////////////
 
 		public HonorBoundMod() {
-			this.Properties = new ModProperties() {
-				Autoload = true,
-				AutoloadGores = true,
-				AutoloadSounds = true
-			};
-
-			this.ConfigJson = new JsonConfig<HonorBoundConfigData>( HonorBoundConfigData.ConfigFileName, ConfigurationDataBase.RelativePath, new HonorBoundConfigData() );
+			this.ConfigJson = new JsonConfig<HonorBoundConfigData>(
+				HonorBoundConfigData.ConfigFileName,
+				ConfigurationDataBase.RelativePath,
+				new HonorBoundConfigData()
+			);
 		}
 
 		////////////////
@@ -115,12 +86,16 @@ namespace HonorBound {
 
 		////////////////
 
-		public override void HandlePacket( BinaryReader reader, int player_who ) {
+		public override void HandlePacket( BinaryReader reader, int playerWho ) {
 			if( Main.netMode == 1 ) {   // Client
-				ClientPacketHandlers.HandlePacket( this, reader );
+				ClientPacketHandlers.HandlePacket( reader );
 			} else if( Main.netMode == 2 ) {    // Server
-				ServerPacketHandlers.HandlePacket( this, reader, player_who );
+				ServerPacketHandlers.HandlePacket( reader, playerWho );
 			}
+		}
+
+		public override object Call( params object[] args ) {
+			return ModBoilerplateHelpers.HandleModCall( typeof(HonorBoundAPI), args );
 		}
 
 		////////////////
@@ -128,17 +103,17 @@ namespace HonorBound {
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			if( !this.IsEnabled() ) { return; }
 
-			var my_world = this.GetModWorld<HonorBoundWorld>();
-			var my_logic = my_world.Logic;
+			var myWorld = this.GetModWorld<HonorBoundWorld>();
+			var myLogic = myWorld.Logic;
 			
-			if( !my_logic.IsGameModeBegun ) {
-				my_logic.RefreshAllowedHonorifics();
+			if( !myLogic.IsGameModeBegun ) {
+				myLogic.RefreshAllowedHonorifics();
 
 				int idx = layers.FindIndex( layer => layer.Name.Equals( "Vanilla: Mouse Text" ) );
 				if( idx != -1 ) {
 					var interface_layer = new LegacyGameInterfaceLayer( "HonorBound: Honorific Picker",
 						delegate {
-							this.UI.RefreshAllowedOptions( my_logic );
+							this.UI.RefreshAllowedOptions( myLogic );
 
 							if( this.LastSeenScreenWidth != Main.screenWidth || this.LastSeenScreenHeight != Main.screenHeight ) {
 								this.LastSeenScreenWidth = Main.screenWidth;
@@ -164,14 +139,6 @@ namespace HonorBound {
 
 		public bool IsEnabled() {
 			return this.ConfigJson.Data.Enabled;
-		}
-
-		public bool IsDebugInfo() {
-			return (this.ConfigJson.Data.DEBUGMODE & 1) > 0;
-		}
-
-		public bool IsDebugReset() {
-			return (this.ConfigJson.Data.DEBUGMODE & 2) > 0;
 		}
 	}
 }

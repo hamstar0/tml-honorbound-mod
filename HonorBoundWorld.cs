@@ -12,15 +12,17 @@ namespace HonorBound {
 
 
 
+		////////////////
+
 		public override void Initialize() {
-			this.Logic = new HonorBoundLogic( (HonorBoundMod)this.mod, false, false, new HashSet<string>() );
+			this.Logic = new HonorBoundLogic( false, false, new HashSet<string>() );
 		}
 
 
 		public override void Load( TagCompound tag ) {
 			if( tag.ContainsKey("is_honor_bound") ) {
-				bool is_honor_bound = tag.GetBool( "is_honor_bound" );
-				bool has_no_honor = tag.GetBool( "has_no_honor" );
+				bool isHonorBound = tag.GetBool( "is_honor_bound" );
+				bool hasNoHonor = tag.GetBool( "has_no_honor" );
 				ISet<string> honorifics = new HashSet<string>();
 
 				foreach( string honorific in HonorBoundLogic.Honorifics.Keys ) {
@@ -29,7 +31,7 @@ namespace HonorBound {
 					}
 				}
 				
-				this.Logic = new HonorBoundLogic( (HonorBoundMod)this.mod, is_honor_bound, has_no_honor, honorifics );
+				this.Logic = new HonorBoundLogic( isHonorBound, hasNoHonor, honorifics );
 			}
 		}
 
@@ -39,7 +41,7 @@ namespace HonorBound {
 				{ "has_no_honor", this.Logic.IsDishonorable}
 			};
 			foreach( string honorific in this.Logic.CurrentActiveHonorifics ) {
-				tags.Set( "has_" + honorific, true );
+				tags[ "has_" + honorific ] = true;
 			}
 			return tags;
 		}
@@ -61,15 +63,15 @@ namespace HonorBound {
 
 			ISet<string> honorifics = new HashSet<string>();
 			
-			bool is_honor_bound = reader.ReadBoolean();
-			bool has_no_honor = reader.ReadBoolean();
+			bool isHonorBound = reader.ReadBoolean();
+			bool hasNoHonor = reader.ReadBoolean();
 			int count = reader.ReadInt32();
 
 			for( int i=0; i<count; i++ ) {
 				honorifics.Add( reader.ReadString() );
 			}
 			
-			this.Logic = new HonorBoundLogic( mymod, is_honor_bound, has_no_honor, honorifics );
+			this.Logic = new HonorBoundLogic( isHonorBound, hasNoHonor, honorifics );
 
 			modplayer.OnEnterWorldIfSynced();
 		}

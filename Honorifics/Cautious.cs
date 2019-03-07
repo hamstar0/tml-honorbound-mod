@@ -16,23 +16,23 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var inj_config = InjuryAPI.GetModSettings();
-			var liv_config = LivesAPI.GetModSettings();
-			var inj_default = new InjuryConfigData();
+			var injConfig = InjuryAPI.GetModSettings();
+			var livConfig = LivesAPI.GetModSettings();
+			var injDefault = new InjuryConfigData();
 
-			inj_config.LifeCrystalNeedsEvilBossDrops = true;
-			inj_config.VitaePerCrackedLifeCrystal = inj_default.VitaePerCrackedLifeCrystal;
-			liv_config.ExtraLifeVoodoo = true;
+			injConfig.LifeCrystalNeedsEvilBossDrops = true;
+			injConfig.VitaePerCrackedLifeCrystal = injDefault.VitaePerCrackedLifeCrystal;
+			livConfig.ExtraLifeVoodoo = true;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var inj_config = InjuryAPI.GetModSettings();
-			var liv_config = LivesAPI.GetModSettings();
-			var inj_default = new InjuryConfigData();
+			var injConfig = InjuryAPI.GetModSettings();
+			var livConfig = LivesAPI.GetModSettings();
+			var injDefault = new InjuryConfigData();
 
-			inj_config.LifeCrystalNeedsEvilBossDrops = false;
-			inj_config.VitaePerCrackedLifeCrystal = 2;
-			liv_config.ExtraLifeVoodoo = false;
+			injConfig.LifeCrystalNeedsEvilBossDrops = false;
+			injConfig.VitaePerCrackedLifeCrystal = 2;
+			livConfig.ExtraLifeVoodoo = false;
 		}
 	}
 }

@@ -13,17 +13,17 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var dur_config = DurabilityAPI.GetModSettings();
+			var durConfig = DurabilityAPI.GetModSettings();
 
-			dur_config.CanRepair = false;
-			dur_config.CanRepairBroken = false;
+			durConfig.CanRepair = false;
+			durConfig.CanRepairBroken = false;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var dur_config = DurabilityAPI.GetModSettings();
+			var durConfig = DurabilityAPI.GetModSettings();
 
-			dur_config.CanRepair = true;
-			dur_config.CanRepairBroken = true;
+			durConfig.CanRepair = true;
+			durConfig.CanRepairBroken = true;
 		}
 	}
 }
