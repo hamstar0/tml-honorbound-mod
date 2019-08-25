@@ -1,11 +1,12 @@
 ﻿using LosingIsFun;
+using Terraria.ModLoader;
 
 
 namespace HonorBound.Honorifics {
 	class HonorableHonorificEntry : HonorificEntry {
 		public HonorableHonorificEntry() {
-			var lifConfig = LosingIsFunAPI.GetModSettings();
-			var lifDefault = new LosingIsFunConfigData();
+			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifDefault = new LosingIsFunConfig();
 			int evacTime = lifDefault.EvacWarpChargeDurationFrames;
 
 			this.Name = "Honorable";
@@ -17,16 +18,16 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lifConfig = LosingIsFunAPI.GetModSettings();
-			var lifDefault = new LosingIsFunConfigData();
+			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifDefault = new LosingIsFunConfig();
 
 			lifConfig.EvacWarpChargeDurationFrames = lifDefault.EvacWarpChargeDurationFrames;
 			lifConfig.SorenessDurationSeconds = lifDefault.SorenessDurationSeconds;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lifConfig = LosingIsFunAPI.GetModSettings();
-			var lifDefault = new LosingIsFunConfigData();
+			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifDefault = new LosingIsFunConfig();
 
 			lifConfig.EvacWarpChargeDurationFrames = -1;
 			lifConfig.SorenessDurationSeconds = lifDefault.SorenessDurationSeconds;

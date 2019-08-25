@@ -1,6 +1,6 @@
-﻿using HamstarHelpers.Components.UI.Elements;
-using HamstarHelpers.Helpers.DebugHelpers;
-using HamstarHelpers.Helpers.HudHelpers;
+﻿using HamstarHelpers.Classes.UI.Elements;
+using HamstarHelpers.Classes.UI.Theme;
+using HamstarHelpers.Helpers.HUD;
 using HonorBound.NetProtocol;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,12 +19,14 @@ namespace HonorBound {
 		public static Color ButtonEdgeColor = new Color( 96, 96, 192 );
 		public static Color ButtonBodyColor = new Color( 0, 0, 160 );
 		public static Color ButtonBodyLitColor = new Color( 0, 0, 255 );
-		
-		public static Texture2D BackgroundLogo { get; private set; }
 
 		public UIPanel MainPanel;
 		public IDictionary<string, UICheckbox> Options = new Dictionary<string, UICheckbox>();
 		private UserInterface Backend;
+		
+		////
+
+		public static Texture2D BackgroundLogo { get; private set; }
 
 		public bool IsOpen { get; private set; }
 		public bool IsTogglerLit { get; private set; }
@@ -97,7 +99,7 @@ namespace HonorBound {
 				top += 20f;
 				
 				string honorific = kv.Key;
-				var uiOption = new UICheckbox( honorific, String.Join("\n", kv.Value.Descriptions) );
+				var uiOption = new UICheckbox( UITheme.Vanilla, honorific, String.Join("\n", kv.Value.Descriptions) );
 
 				uiOption.Top.Set( top, 0f );
 				uiOption.SetText( "    "+honorific, 0.8f, false );
@@ -229,7 +231,7 @@ namespace HonorBound {
 			if( this.IsTogglerLit ) { bodyColor = HonorBoundUI.ButtonBodyLitColor; }
 			this.GetTogglerDimensions( out pos, out size );
 			
-			HudHelpers.DrawBorderedRect( sb, bodyColor, edgeColor, pos, size, 2 );
+			HUDHelpers.DrawBorderedRect( sb, bodyColor, edgeColor, pos, size, 2 );
 		}
 		
 		public void CheckTogglerMouseInteraction() {

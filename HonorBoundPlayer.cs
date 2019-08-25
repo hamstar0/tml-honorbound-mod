@@ -1,6 +1,5 @@
-﻿using HamstarHelpers.Components.Errors;
-using HamstarHelpers.Helpers.DebugHelpers;
-using HamstarHelpers.Helpers.WorldHelpers;
+﻿using HamstarHelpers.Classes.Errors;
+using HamstarHelpers.Helpers.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -108,16 +107,16 @@ namespace HonorBound {
 
 		internal bool HasBegunCurrentWorld() {
 			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
-			if( !this.HasEnteredWorld ) { throw new HamstarException( "Cannot check if game is running for player if player hasn't joined game." ); }
+			if( !this.HasEnteredWorld ) { throw new ModHelpersException( "Cannot check if game is running for player if player hasn't joined game." ); }
 			
-			return this.BegunWorldIds.Contains( WorldHelpers.GetUniqueId(true) );
+			return this.BegunWorldIds.Contains( WorldHelpers.GetUniqueIdForCurrentWorld( true) );
 		}
 
 		internal void Begin() {
 			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
-			if( !this.HasEnteredWorld ) { throw new HamstarException( "Cannot begin game if player hasn't joined game." ); }
+			if( !this.HasEnteredWorld ) { throw new ModHelpersException( "Cannot begin game if player hasn't joined game." ); }
 
-			this.BegunWorldIds.Add( WorldHelpers.GetUniqueId(true) );
+			this.BegunWorldIds.Add( WorldHelpers.GetUniqueIdForCurrentWorld(true) );
 		}
 	}
 }

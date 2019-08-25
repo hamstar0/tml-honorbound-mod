@@ -1,10 +1,11 @@
-﻿using TheLunatic;
+﻿using Terraria.ModLoader;
+using TheLunatic;
 
 
 namespace HonorBound.Honorifics {
 	class StrategistHonorificEntry : HonorificEntry {
 		public StrategistHonorificEntry() {
-			var lunDefault = new LunaticConfigData();
+			var lunDefault = ModLoader.GetMod( "TheLunatic" ).GetConfig<LunaticConfig>();
 			float wofTime = lunDefault.WallOfFleshMultiplier * ((float)lunDefault.HalfDaysRecoveredPerMask / 2f);
 			float time = lunDefault.DaysUntil;
 
@@ -17,16 +18,16 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var config = TheLunaticAPI.GetModSettings();
-			var lunDefault = new LunaticConfigData();
+			var config = ModLoader.GetMod( "TheLunatic" ).GetConfig<LunaticConfig>();
+			var lunDefault = new LunaticConfig();
 
 			config.WallOfFleshMultiplier = lunDefault.WallOfFleshMultiplier / 2f;
 			config.DaysUntil = lunDefault.DaysUntil / 2;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var config = TheLunaticAPI.GetModSettings();
-			var lunDefault = new LunaticConfigData();
+			var config = ModLoader.GetMod( "TheLunatic" ).GetConfig<LunaticConfig>();
+			var lunDefault = new LunaticConfig();
 
 			config.WallOfFleshMultiplier = lunDefault.WallOfFleshMultiplier;
 			config.DaysUntil = lunDefault.DaysUntil;

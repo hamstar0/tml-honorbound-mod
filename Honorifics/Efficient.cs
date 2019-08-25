@@ -1,4 +1,5 @@
 ﻿using Durability;
+using Terraria.ModLoader;
 
 
 namespace HonorBound.Honorifics {
@@ -13,16 +14,16 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var durConfig = DurabilityAPI.GetModSettings();
-			var durDefault = new DurabilityConfigData();
+			var durConfig = ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>();
+			var durDefault = new DurabilityConfig();
 
 			durConfig.GeneralWearAndTearMultiplier = durDefault.GeneralWearAndTearMultiplier;
 			durConfig.MaxDurabilityLostPerRepair = durDefault.MaxDurabilityLostPerRepair;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var durConfig = DurabilityAPI.GetModSettings();
-			var durDefault = new DurabilityConfigData();
+			var durConfig = ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>();
+			var durDefault = new DurabilityConfig();
 
 			durConfig.GeneralWearAndTearMultiplier = durDefault.GeneralWearAndTearMultiplier * 2;
 			durConfig.MaxDurabilityLostPerRepair = 0;

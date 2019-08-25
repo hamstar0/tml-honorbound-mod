@@ -1,4 +1,5 @@
 ﻿using LosingIsFun;
+using Terraria.ModLoader;
 
 
 namespace HonorBound.Honorifics {
@@ -12,16 +13,16 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lifConfig = LosingIsFunAPI.GetModSettings();
-			var lifDefault = new LosingIsFunConfigData();
+			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifDefault = new LosingIsFunConfig();
 
 			lifConfig.MinimumRatioTownNPCSolidBlocks = lifDefault.MinimumRatioTownNPCSolidBlocks;
 			lifConfig.MinimumTownNpcTileSpacing = lifDefault.MinimumTownNpcTileSpacing;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lifConfig = LosingIsFunAPI.GetModSettings();
-			var lifDefault = new LosingIsFunConfigData();
+			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifDefault = new LosingIsFunConfig();
 
 			lifConfig.MinimumRatioTownNPCSolidBlocks = 0;
 			lifConfig.MinimumTownNpcTileSpacing = 0;

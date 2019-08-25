@@ -1,50 +1,20 @@
-﻿using HamstarHelpers.Components.Config;
-using System;
+﻿using System;
+using System.ComponentModel;
+using Terraria.ModLoader.Config;
 
 
 namespace HonorBound {
-	public class HonorBoundConfigData : ConfigurationDataBase {
-		public static readonly string ConfigFileName = "Honor Bound Config.json";
-
+	public class HonorBoundConfig : ModConfig {
+		public override ConfigScope Mode => ConfigScope.ServerSide;
 
 		////////////////
 
-		public string VersionSinceUpdate = "";
-
+		[DefaultValue( false )]
 		public bool DebugModeInfo = false;
+		[DefaultValue( false )]
 		public bool DebugModeReset = false;
 
+		[DefaultValue( true )]
 		public bool Enabled = true;
-
-
-
-		////////////////
-
-		public void SetDefaults() { }
-
-
-		////////////////
-
-		public bool UpdateToLatestVersion() {
-			var mymod = HonorBoundMod.Instance;
-			var newConfig = new HonorBoundConfigData();
-			newConfig.SetDefaults();
-
-			var versSince = this.VersionSinceUpdate != "" ?
-				new Version( this.VersionSinceUpdate ) :
-				new Version();
-
-			if( versSince >= mymod.Version ) {
-				return false;
-			}
-
-			if( this.VersionSinceUpdate == "" ) {
-				this.SetDefaults();
-			}
-
-			this.VersionSinceUpdate = mymod.Version.ToString();
-
-			return true;
-		}
 	}
 }

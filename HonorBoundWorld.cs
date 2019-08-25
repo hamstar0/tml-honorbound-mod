@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HamstarHelpers.Helpers.TModLoader;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
@@ -58,8 +59,8 @@ namespace HonorBound {
 
 		public override void NetReceive( BinaryReader reader ) {
 			var mymod = (HonorBoundMod)this.mod;
-			var modplayer = Main.LocalPlayer.GetModPlayer<HonorBoundPlayer>( mymod );
-			if( !modplayer.HasEnteredWorld ) { return; }
+			var myplayer = (HonorBoundPlayer)TmlHelpers.SafelyGetModPlayer( Main.LocalPlayer, mymod, "HonorBoundPlayer" );
+			if( !myplayer.HasEnteredWorld ) { return; }
 
 			ISet<string> honorifics = new HashSet<string>();
 			
@@ -73,7 +74,7 @@ namespace HonorBound {
 			
 			this.Logic = new HonorBoundLogic( isHonorBound, hasNoHonor, honorifics );
 
-			modplayer.OnEnterWorldIfSynced();
+			myplayer.OnEnterWorldIfSynced();
 		}
 	}
 }

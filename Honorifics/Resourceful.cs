@@ -1,4 +1,5 @@
 ﻿using Durability;
+using Terraria.ModLoader;
 
 
 namespace HonorBound.Honorifics {
@@ -13,14 +14,14 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var durConfig = DurabilityAPI.GetModSettings();
+			var durConfig = ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>();
 
 			durConfig.CanRepair = false;
 			durConfig.CanRepairBroken = false;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var durConfig = DurabilityAPI.GetModSettings();
+			var durConfig = ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>();
 
 			durConfig.CanRepair = true;
 			durConfig.CanRepairBroken = true;

@@ -1,7 +1,6 @@
-﻿using HamstarHelpers.Components.Config;
-using HamstarHelpers.Components.Errors;
-using HamstarHelpers.Helpers.DebugHelpers;
-using HamstarHelpers.Helpers.TmlHelpers.ModHelpers;
+﻿using HamstarHelpers.Classes.Errors;
+using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Helpers.TModLoader.Mods;
 using HonorBound.NetProtocol;
 using System;
 using System.Collections.Generic;
@@ -19,8 +18,7 @@ namespace HonorBound {
 
 		////////////////
 
-		public JsonConfig<HonorBoundConfigData> ConfigJson { get; private set; }
-		public HonorBoundConfigData Config => this.ConfigJson.Data;
+		public HonorBoundConfig Config => this.GetConfig<HonorBoundConfig>();
 
 		public HonorBoundUI UI = null;
 		private int LastSeenScreenWidth = -1;
@@ -33,38 +31,14 @@ namespace HonorBound {
 		////////////////
 
 		public HonorBoundMod() {
-			this.ConfigJson = new JsonConfig<HonorBoundConfigData>(
-				HonorBoundConfigData.ConfigFileName,
-				ConfigurationDataBase.RelativePath,
-				new HonorBoundConfigData()
-			);
+			HonorBoundMod.Instance = this;
 		}
 
 		////////////////
 
 		public override void Load() {
-			HonorBoundMod.Instance = this;
-
-			this.LoadConfig();
-
 			if( !Main.dedServ ) {
 				this.UI = new HonorBoundUI();
-			}
-		}
-
-		private void LoadConfig() {
-			try {
-				if( !this.ConfigJson.LoadFile() ) {
-					this.ConfigJson.SaveFile();
-				}
-			} catch( Exception e ) {
-				LogHelpers.Log( e.Message );
-				this.ConfigJson.SaveFile();
-			}
-
-			if( this.ConfigJson.Data.UpdateToLatestVersion() ) {
-				ErrorLogger.Log( "Honor Bound updated to " + this.Version.ToString() );
-				this.ConfigJson.SaveFile();
 			}
 		}
 
@@ -80,7 +54,7 @@ namespace HonorBound {
 				this.UI.PostSetupContent();
 			}
 			
-			this.ConfigJson.Data.Enabled = this.IsEnabled();
+			this.Config.Enabled = this.IsEnabled();
 		}
 
 
@@ -138,7 +112,7 @@ namespace HonorBound {
 		////////////////
 
 		public bool IsEnabled() {
-			return this.ConfigJson.Data.Enabled;
+			return this.Config.Enabled;
 		}
 	}
 }

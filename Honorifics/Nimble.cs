@@ -1,10 +1,11 @@
 ﻿using Injury;
+using Terraria.ModLoader;
 
 
 namespace HonorBound.Honorifics {
 	class NimbleHonorificEntry : HonorificEntry {
 		public NimbleHonorificEntry() {
-			var injDefault = new InjuryConfigData();
+			var injDefault = new InjuryConfig();
 			int bleedTime = injDefault.DurationOfBleedingHeart;
 
 			this.Name = "Nimble";
@@ -16,16 +17,16 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var injConfig = InjuryAPI.GetModSettings();
-			var injDefault = new InjuryConfigData();
+			var injConfig = ModLoader.GetMod( "Injury" ).GetConfig<InjuryConfig>();
+			var injDefault = new InjuryConfig();
 
 			injConfig.DurationOfBleedingHeart = injDefault.DurationOfBleedingHeart / 3;
 			injConfig.HarmBufferCapacityBeforeReceivingInjury = injDefault.HarmBufferCapacityBeforeReceivingInjury / 3f;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var injConfig = InjuryAPI.GetModSettings();
-			var injDefault = new InjuryConfigData();
+			var injConfig = ModLoader.GetMod( "Injury" ).GetConfig<InjuryConfig>();
+			var injDefault = new InjuryConfig();
 
 			injConfig.DurationOfBleedingHeart = injDefault.DurationOfBleedingHeart;
 			injConfig.HarmBufferCapacityBeforeReceivingInjury = injDefault.HarmBufferCapacityBeforeReceivingInjury;

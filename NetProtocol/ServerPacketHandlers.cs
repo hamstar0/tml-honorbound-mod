@@ -1,4 +1,4 @@
-﻿using HamstarHelpers.Helpers.DebugHelpers;
+﻿using HamstarHelpers.Helpers.Debug;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -59,7 +59,7 @@ namespace HonorBound.NetProtocol {
 
 			packet.Send( (int)player.whoAmI );
 
-			if( mymod.ConfigJson.Data.DebugModeInfo ) {
+			if( mymod.Config.DebugModeInfo ) {
 				LogHelpers.Alert( "IsHonorBound:" + mylogic.IsHonorBound +
 					" IsDishonorable:" + mylogic.IsDishonorable +
 					" CurrentActiveHonorifics:" + String.Join( ",", mylogic.CurrentActiveHonorifics ) );
@@ -96,7 +96,7 @@ namespace HonorBound.NetProtocol {
 				return;
 			}
 
-			if( mymod.ConfigJson.Data.DebugModeInfo ) {
+			if( mymod.Config.DebugModeInfo ) {
 				LogHelpers.Alert( "who:" + who );
 			}
 
@@ -122,7 +122,7 @@ namespace HonorBound.NetProtocol {
 				return;
 			}
 
-			if( mymod.ConfigJson.Data.DebugModeInfo ) {
+			if( mymod.Config.DebugModeInfo ) {
 				LogHelpers.Alert( "whoFrom: " + whoFrom +
 					" isHonorBound:" + isHonorBound +
 					" hasNoHonor:" + hasNoHonor +

@@ -1,18 +1,14 @@
-﻿using Capitalism;
-using Durability;
-using HamstarHelpers.Components.Errors;
-using HamstarHelpers.Helpers.DebugHelpers;
-using HamstarHelpers.Services.Messages;
+﻿using Durability;
+using HamstarHelpers.Classes.Errors;
+using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Services.Messages.Simple;
 using HonorBound.Honorifics;
-using Injury;
-using Lives;
-using LosingIsFun;
-using Stamina;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TheLunatic;
 
 
@@ -93,7 +89,7 @@ namespace HonorBound {
 
 			var mymod = HonorBoundMod.Instance;
 
-			if( mymod.ConfigJson.Data.DebugModeReset ) {
+			if( mymod.Config.DebugModeReset ) {
 				this.IsHonorBound = false;
 				this.IsDishonorable = false;
 				this.CurrentActiveHonorifics = new HashSet<string>();
@@ -135,13 +131,13 @@ namespace HonorBound {
 		////////////////
 
 		internal void EnableMods( bool enable ) {
-			DurabilityAPI.GetModSettings().Enabled = enable;
-			InjuryAPI.GetModSettings().Enabled = enable;
-			LivesAPI.GetModSettings().Enabled = enable;
-			StaminaAPI.GetModSettings().Enabled = enable;
-			CapitalismAPI.GetModSettings().Enabled = enable;
-			TheLunaticAPI.GetModSettings().Enabled = enable;
-			LosingIsFunAPI.GetModSettings().Enabled = enable;
+			ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>().Enabled = enable;
+			ModLoader.GetMod( "Injury" ).GetConfig<DurabilityConfig>().Enabled = enable;
+			ModLoader.GetMod( "Lives" ).GetConfig<DurabilityConfig>().Enabled = enable;
+			ModLoader.GetMod( "Stamina" ).GetConfig<DurabilityConfig>().Enabled = enable;
+			ModLoader.GetMod( "Capitalism" ).GetConfig<DurabilityConfig>().Enabled = enable;
+			ModLoader.GetMod( "TheLunatic" ).GetConfig<DurabilityConfig>().Enabled = enable;
+			ModLoader.GetMod( "LosingIsFun" ).GetConfig<DurabilityConfig>().Enabled = enable;
 		}
 
 
@@ -149,7 +145,7 @@ namespace HonorBound {
 		////////////////
 		
 		internal void BeginGameModeForLocalPlayer() {
-			if( this.IsGameModeBegun ) { throw new HamstarException( "Already begun." ); }
+			if( this.IsGameModeBegun ) { throw new ModHelpersException( "Already begun." ); }
 			
 			if( this.IsHonorBound ) {
 				this.ApplyHonorifics();
@@ -160,12 +156,12 @@ namespace HonorBound {
 		}
 
 		internal void ForHonor() {
-			if( this.IsGameModeBegun ) { throw new HamstarException( "Already begun." ); }
+			if( this.IsGameModeBegun ) { throw new ModHelpersException( "Already begun." ); }
 			this.IsHonorBound = true;
 		}
 
 		internal void NoHonor() {
-			if( this.IsGameModeBegun ) { throw new HamstarException( "Already begun." ); }
+			if( this.IsGameModeBegun ) { throw new ModHelpersException( "Already begun." ); }
 			this.IsDishonorable = true;
 		}
 

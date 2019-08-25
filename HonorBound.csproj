@@ -1,123 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="C:\Users\Spinach\Documents\My Games\Terraria\ModLoader\references\tModLoader.targets" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8298EAB6-0586-4BDA-9483-83624B66B13A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HonorBound</RootNamespace>
     <AssemblyName>HonorBound</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <TargetFramework>net452</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+  <Target Name="BuildMod" AfterTargets="Build">
+    <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
+  </Target>
   <ItemGroup>
-    <Compile Include="API.cs" />
-    <Compile Include="ConfigDefaults.cs" />
-    <Compile Include="HonorBoundLogic.cs" />
-    <Compile Include="HonorBoundMod_Meta.cs" />
-    <Compile Include="HonorBoundMod.cs" />
-    <Compile Include="HonorBoundUI.cs" />
-    <Compile Include="Honorifics\Brave.cs" />
-    <Compile Include="Honorifics\Cautious.cs" />
-    <Compile Include="Honorifics\Completionist.cs" />
-    <Compile Include="Honorifics\Duelist.cs" />
-    <Compile Include="Honorifics\Efficient.cs" />
-    <Compile Include="Honorifics\Expedient.cs" />
-    <Compile Include="Honorifics\Generous.cs" />
-    <Compile Include="Honorifics\Honorable.cs" />
-    <Compile Include="Honorifics\Nimble.cs" />
-    <Compile Include="Honorifics\Procrastinator.cs" />
-    <Compile Include="Honorifics\Resourceful.cs" />
-    <Compile Include="Honorifics\Strategist.cs" />
-    <Compile Include="Honorifics\Survivor.cs" />
-    <Compile Include="HonorBoundPlayer.cs" />
-    <Compile Include="HonorBoundWorld.cs" />
-    <Compile Include="NetProtocol\ClientPacketHandlers.cs" />
-    <Compile Include="NetProtocol\NetProtocolTypes.cs" />
-    <Compile Include="NetProtocol\ServerPacketHandlers.cs" />
+    <None Remove=".gitattributes" />
+    <None Remove=".gitignore" />
+    <None Remove="logo tiny.png" />
+    <None Remove="Logo.pdn" />
+    <None Remove="Logo.xcf" />
+    <None Remove="LogoTitle.png" />
+    <None Remove="LogoTitleMini.png" />
+    <None Remove="tiny logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Capitalism">
-      <HintPath>..\Capitalism\bin\Release\Capitalism.dll</HintPath>
+      <HintPath>..\..\Capitalism\Capitalism\bin\Release\net452\Capitalism.dll</HintPath>
     </Reference>
     <Reference Include="Durability">
-      <HintPath>..\Durability\bin\Release\Durability.dll</HintPath>
+      <HintPath>..\..\Durability\Durability\bin\Release\net452\Durability.dll</HintPath>
     </Reference>
     <Reference Include="HamstarHelpers">
-      <HintPath>..\..\Helpers\HamstarHelpers\bin\Release\HamstarHelpers.dll</HintPath>
+      <HintPath>..\..\Mod Helpers\v5 (tML11)\HamstarHelpers\bin\Release\net452\HamstarHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Injury">
-      <HintPath>..\Injury\bin\Release\Injury.dll</HintPath>
+      <HintPath>..\..\Injury\Injury\bin\Release\net452\Injury.dll</HintPath>
     </Reference>
     <Reference Include="Lives">
-      <HintPath>..\Lives\bin\Release\Lives.dll</HintPath>
+      <HintPath>..\..\Lives\Lives\bin\Release\net452\Lives.dll</HintPath>
     </Reference>
     <Reference Include="LosingIsFun">
-      <HintPath>..\LosingIsFun\bin\Release\LosingIsFun.dll</HintPath>
+      <HintPath>..\..\Losing Is Fun\LosingIsFun\bin\Release\net452\LosingIsFun.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Game\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Game.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Graphics\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Graphics.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Xact\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Xact.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed" />
     <Reference Include="Stamina">
-      <HintPath>..\Stamina\bin\Release\Stamina.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="Terraria">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\terraria\Terraria.exe</HintPath>
+      <HintPath>..\..\Stamina\Stamina\bin\Release\net452\Stamina.dll</HintPath>
     </Reference>
     <Reference Include="TheLunatic">
-      <HintPath>..\TheLunatic\bin\Release\TheLunatic.dll</HintPath>
+      <HintPath>..\..\The Lunatic\TheLunatic\bin\Release\net452\TheLunatic.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="BackgroundLogo.png" />
-    <Content Include="build.txt" />
-    <Content Include="description.txt" />
-    <Content Include="icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LICENSE" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>"C:\Program Files (x86)\Steam\steamapps\common\terraria\tModLoaderServer.exe" -build "$(ProjectDir)\"</PostBuildEvent>
-  </PropertyGroup>
 </Project>
