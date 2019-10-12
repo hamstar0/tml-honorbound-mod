@@ -16,8 +16,8 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var injConfig = ModLoader.GetMod( "Injury" ).GetConfig<InjuryConfig>();
-			var livConfig = ModLoader.GetMod( "Lives" ).GetConfig<LivesConfig>();
+			var injConfig = ModContent.GetInstance<InjuryConfig>();
+			var livConfig = ModContent.GetInstance<LivesConfig>();
 			var injDefault = new InjuryConfig();
 
 			injConfig.LifeCrystalNeedsEvilBossDrops = true;
@@ -26,8 +26,8 @@ namespace HonorBound.Honorifics {
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var injConfig = ModLoader.GetMod( "Injury" ).GetConfig<InjuryConfig>();
-			var livConfig = ModLoader.GetMod( "Lives" ).GetConfig<LivesConfig>();
+			var injConfig = ModContent.GetInstance<InjuryConfig>();
+			var livConfig = ModContent.GetInstance<LivesConfig>();
 			var injDefault = new InjuryConfig();
 
 			injConfig.LifeCrystalNeedsEvilBossDrops = false;

@@ -14,7 +14,7 @@ namespace HonorBound.Honorifics {
 
 
 		public override void PostLoadOn( HonorBoundLogic logic ) {
-			var config = ModLoader.GetMod( "TheLunatic" ).GetConfig<LunaticConfig>();
+			var config = ModContent.GetInstance<LunaticConfig>();
 
 			config.DaysUntil *= 5;
 			config.HalfDaysRecoveredPerMask *= 5;

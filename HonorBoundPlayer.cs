@@ -62,7 +62,7 @@ namespace HonorBound {
 			if( !this.HasEnteredWorld ) { return; }
 
 			var mymod = (HonorBoundMod)this.mod;
-			var modworld = mymod.GetModWorld<HonorBoundWorld>();
+			var modworld = ModContent.GetInstance<HonorBoundWorld>();
 
 			if( !mymod.IsEnabled() ) {
 				Main.NewText( "Honor Bound disabled (if unexpected, see log.txt for information).", Color.Gray );
@@ -106,14 +106,12 @@ namespace HonorBound {
 		////////////////
 
 		internal bool HasBegunCurrentWorld() {
-			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
 			if( !this.HasEnteredWorld ) { throw new ModHelpersException( "Cannot check if game is running for player if player hasn't joined game." ); }
 			
 			return this.BegunWorldIds.Contains( WorldHelpers.GetUniqueIdForCurrentWorld( true) );
 		}
 
 		internal void Begin() {
-			var modworld = this.mod.GetModWorld<HonorBoundWorld>();
 			if( !this.HasEnteredWorld ) { throw new ModHelpersException( "Cannot begin game if player hasn't joined game." ); }
 
 			this.BegunWorldIds.Add( WorldHelpers.GetUniqueIdForCurrentWorld(true) );

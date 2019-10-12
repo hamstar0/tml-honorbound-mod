@@ -18,7 +18,7 @@ namespace HonorBound {
 
 		////////////////
 
-		public HonorBoundConfig Config => this.GetConfig<HonorBoundConfig>();
+		public HonorBoundConfig Config => ModContent.GetInstance<HonorBoundConfig>();
 
 		public HonorBoundUI UI = null;
 		private int LastSeenScreenWidth = -1;
@@ -77,7 +77,7 @@ namespace HonorBound {
 		public override void ModifyInterfaceLayers( List<GameInterfaceLayer> layers ) {
 			if( !this.IsEnabled() ) { return; }
 
-			var myWorld = this.GetModWorld<HonorBoundWorld>();
+			var myWorld = ModContent.GetInstance<HonorBoundWorld>();
 			var myLogic = myWorld.Logic;
 			
 			if( !myLogic.IsGameModeBegun ) {

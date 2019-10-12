@@ -14,14 +14,14 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var durConfig = ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>();
+			var durConfig = ModContent.GetInstance<DurabilityConfig>();
 
 			durConfig.CanRepair = false;
 			durConfig.CanRepairBroken = false;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var durConfig = ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>();
+			var durConfig = ModContent.GetInstance<DurabilityConfig>();
 
 			durConfig.CanRepair = true;
 			durConfig.CanRepairBroken = true;

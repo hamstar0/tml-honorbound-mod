@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace HonorBound.Honorifics {
 	class HonorableHonorificEntry : HonorificEntry {
 		public HonorableHonorificEntry() {
-			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifConfig = ModContent.GetInstance<LosingIsFunConfig>();
 			var lifDefault = new LosingIsFunConfig();
 			int evacTime = lifDefault.EvacWarpChargeDurationFrames;
 
@@ -18,7 +18,7 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifConfig = ModContent.GetInstance<LosingIsFunConfig>();
 			var lifDefault = new LosingIsFunConfig();
 
 			lifConfig.EvacWarpChargeDurationFrames = lifDefault.EvacWarpChargeDurationFrames;
@@ -26,7 +26,7 @@ namespace HonorBound.Honorifics {
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifConfig = ModContent.GetInstance<LosingIsFunConfig>();
 			var lifDefault = new LosingIsFunConfig();
 
 			lifConfig.EvacWarpChargeDurationFrames = -1;

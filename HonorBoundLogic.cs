@@ -1,8 +1,13 @@
-﻿using Durability;
+﻿using Capitalism;
+using Durability;
 using HamstarHelpers.Classes.Errors;
 using HamstarHelpers.Helpers.Debug;
 using HamstarHelpers.Services.Messages.Simple;
 using HonorBound.Honorifics;
+using Injury;
+using Lives;
+using LosingIsFun;
+using Stamina;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,13 +136,13 @@ namespace HonorBound {
 		////////////////
 
 		internal void EnableMods( bool enable ) {
-			ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>().Enabled = enable;
-			ModLoader.GetMod( "Injury" ).GetConfig<DurabilityConfig>().Enabled = enable;
-			ModLoader.GetMod( "Lives" ).GetConfig<DurabilityConfig>().Enabled = enable;
-			ModLoader.GetMod( "Stamina" ).GetConfig<DurabilityConfig>().Enabled = enable;
-			ModLoader.GetMod( "Capitalism" ).GetConfig<DurabilityConfig>().Enabled = enable;
-			ModLoader.GetMod( "TheLunatic" ).GetConfig<DurabilityConfig>().Enabled = enable;
-			ModLoader.GetMod( "LosingIsFun" ).GetConfig<DurabilityConfig>().Enabled = enable;
+			ModContent.GetInstance<DurabilityConfig>().Enabled = enable;
+			ModContent.GetInstance<InjuryConfig>().Enabled = enable;
+			ModContent.GetInstance<LivesConfig>().Enabled = enable;
+			ModContent.GetInstance<StaminaConfig>().Enabled = enable;
+			ModContent.GetInstance<CapitalismConfig>().Enabled = enable;
+			ModContent.GetInstance<LunaticConfig>().Enabled = enable;
+			ModContent.GetInstance<LosingIsFunConfig>().Enabled = enable;
 		}
 
 

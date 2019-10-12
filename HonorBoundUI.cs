@@ -71,8 +71,8 @@ namespace HonorBound {
 		////////////////
 
 		public override void OnInitialize() {
-			var mymod = (HonorBoundMod)ModLoader.GetMod( "HonorBound" );
-			var myworld = mymod.GetModWorld<HonorBoundWorld>();
+			var mymod = (HonorBoundMod)HonorBoundMod.Instance;
+			var myworld = ModContent.GetInstance<HonorBoundWorld>();
 
 			if( HonorBoundUI.BackgroundLogo == null ) {
 				HonorBoundUI.BackgroundLogo = mymod.GetTexture( "BackgroundLogo" );
@@ -107,7 +107,7 @@ namespace HonorBound {
 
 				uiOption.OnSelectedChanged += delegate () {
 					mymod = (HonorBoundMod)ModLoader.GetMod( "HonorBound" );
-					myworld = mymod.GetModWorld<HonorBoundWorld>();
+					myworld = ModContent.GetInstance<HonorBoundWorld>();
 					
 					if( uiOption.Selected ) {
 						myworld.Logic.CurrentActiveHonorifics.Add( honorific );
@@ -260,7 +260,7 @@ namespace HonorBound {
 
 		private void ActivateForHonor() {
 			var mymod = HonorBoundMod.Instance;
-			var modworld = mymod.GetModWorld<HonorBoundWorld>();
+			var modworld = ModContent.GetInstance<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
 			
 			mylogic.ForHonor();
@@ -273,7 +273,7 @@ namespace HonorBound {
 
 		private void ActivateNoHonor() {
 			var mymod = HonorBoundMod.Instance;
-			var modworld = mymod.GetModWorld<HonorBoundWorld>();
+			var modworld = ModContent.GetInstance<HonorBoundWorld>();
 			var mylogic = modworld.Logic;
 			
 			mylogic.NoHonor();

@@ -5,7 +5,7 @@ using TheLunatic;
 namespace HonorBound.Honorifics {
 	class StrategistHonorificEntry : HonorificEntry {
 		public StrategistHonorificEntry() {
-			var lunDefault = ModLoader.GetMod( "TheLunatic" ).GetConfig<LunaticConfig>();
+			var lunDefault = ModContent.GetInstance<LunaticConfig>();
 			float wofTime = lunDefault.WallOfFleshMultiplier * ((float)lunDefault.HalfDaysRecoveredPerMask / 2f);
 			float time = lunDefault.DaysUntil;
 
@@ -18,7 +18,7 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var config = ModLoader.GetMod( "TheLunatic" ).GetConfig<LunaticConfig>();
+			var config = ModContent.GetInstance<LunaticConfig>();
 			var lunDefault = new LunaticConfig();
 
 			config.WallOfFleshMultiplier = lunDefault.WallOfFleshMultiplier / 2f;
@@ -26,7 +26,7 @@ namespace HonorBound.Honorifics {
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var config = ModLoader.GetMod( "TheLunatic" ).GetConfig<LunaticConfig>();
+			var config = ModContent.GetInstance<LunaticConfig>();
 			var lunDefault = new LunaticConfig();
 
 			config.WallOfFleshMultiplier = lunDefault.WallOfFleshMultiplier;

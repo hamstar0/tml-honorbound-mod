@@ -16,14 +16,14 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var livConfig = ModLoader.GetMod("Lives").GetConfig<LivesConfig>();
+			var livConfig = ModContent.GetInstance<LivesConfig>();
 			var livDefault = new LivesConfig();
 
 			livConfig.InitialLives = livDefault.InitialLives;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var livConfig = ModLoader.GetMod( "Lives" ).GetConfig<LivesConfig>();
+			var livConfig = ModContent.GetInstance<LivesConfig>();
 
 			livConfig.InitialLives = 10;
 		}
@@ -31,7 +31,7 @@ namespace HonorBound.Honorifics {
 		
 		public override void BegunWorldOn( HonorBoundLogic logic ) {
 			if( Main.netMode != 2 ) {
-				var livConfig = ModLoader.GetMod( "Lives" ).GetConfig<LivesConfig>();
+				var livConfig = ModContent.GetInstance<LivesConfig>();
 				int baseLives = LivesAPI.GetLives( Main.LocalPlayer );
 				
 				LivesAPI.AddLives( Main.LocalPlayer, livConfig.InitialLives - baseLives );
@@ -40,7 +40,7 @@ namespace HonorBound.Honorifics {
 
 		public override void BegunWorldOff( HonorBoundLogic logic ) {
 			if( Main.netMode != 2 ) {
-				var livConfig = ModLoader.GetMod( "Lives" ).GetConfig<LivesConfig>();
+				var livConfig = ModContent.GetInstance<LivesConfig>();
 				int baseLives = LivesAPI.GetLives( Main.LocalPlayer );
 
 				LivesAPI.AddLives( Main.LocalPlayer, livConfig.InitialLives - baseLives );

@@ -14,7 +14,7 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var durConfig = ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>();
+			var durConfig = ModContent.GetInstance<DurabilityConfig>();
 			var durDefault = new DurabilityConfig();
 
 			durConfig.GeneralWearAndTearMultiplier = durDefault.GeneralWearAndTearMultiplier;
@@ -22,7 +22,7 @@ namespace HonorBound.Honorifics {
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var durConfig = ModLoader.GetMod( "Durability" ).GetConfig<DurabilityConfig>();
+			var durConfig = ModContent.GetInstance<DurabilityConfig>();
 			var durDefault = new DurabilityConfig();
 
 			durConfig.GeneralWearAndTearMultiplier = durDefault.GeneralWearAndTearMultiplier * 2;

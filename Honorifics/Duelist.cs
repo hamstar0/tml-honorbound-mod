@@ -17,7 +17,7 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var staConfig = ModLoader.GetMod( "Stamina" ).GetConfig<StaminaConfig>();
+			var staConfig = ModContent.GetInstance<StaminaConfig>();
 			var staDefault = new StaminaConfig();
 
 			staConfig.ItemUseRate = staDefault.ItemUseRate;
@@ -25,7 +25,7 @@ namespace HonorBound.Honorifics {
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var staConfig = ModLoader.GetMod( "Stamina" ).GetConfig<StaminaConfig>();
+			var staConfig = ModContent.GetInstance<StaminaConfig>();
 			var staDefault = new StaminaConfig();
 
 			staConfig.ItemUseRate = 0;
@@ -34,7 +34,7 @@ namespace HonorBound.Honorifics {
 
 		public override void BegunWorldOn( HonorBoundLogic logic ) {
 			if( Main.netMode != 2 ) {
-				var staConfig = ModLoader.GetMod( "Stamina" ).GetConfig<StaminaConfig>();
+				var staConfig = ModContent.GetInstance<StaminaConfig>();
 				var staDefault = new StaminaConfig();
 				
 				StaminaAPI.AddStamina( Main.LocalPlayer, staDefault.InitialStamina - StaminaAPI.GetStamina( Main.LocalPlayer ) );

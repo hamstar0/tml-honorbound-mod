@@ -13,7 +13,7 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifConfig = ModContent.GetInstance<LosingIsFunConfig>();
 			var lifDefault = new LosingIsFunConfig();
 
 			lifConfig.MinimumRatioTownNPCSolidBlocks = lifDefault.MinimumRatioTownNPCSolidBlocks;
@@ -21,7 +21,7 @@ namespace HonorBound.Honorifics {
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var lifConfig = ModLoader.GetMod( "LosingIsFun" ).GetConfig<LosingIsFunConfig>();
+			var lifConfig = ModContent.GetInstance<LosingIsFunConfig>();
 			var lifDefault = new LosingIsFunConfig();
 
 			lifConfig.MinimumRatioTownNPCSolidBlocks = 0;

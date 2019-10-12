@@ -15,16 +15,16 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var injConfig = ModLoader.GetMod( "Injury" ).GetConfig<InjuryConfig>();
-			var livConfig = ModLoader.GetMod( "Lives" ).GetConfig<LivesConfig>();
+			var injConfig = ModContent.GetInstance<InjuryConfig>();
+			var livConfig = ModContent.GetInstance<LivesConfig>();
 
 			injConfig.CraftableLifeCrystal = false;
 			livConfig.CraftableExtraLives = false;
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var injConfig = ModLoader.GetMod( "Injury" ).GetConfig<InjuryConfig>();
-			var livConfig = ModLoader.GetMod( "Lives" ).GetConfig<LivesConfig>();
+			var injConfig = ModContent.GetInstance<InjuryConfig>();
+			var livConfig = ModContent.GetInstance<LivesConfig>();
 
 			injConfig.CraftableLifeCrystal = true;
 			livConfig.CraftableExtraLives = true;

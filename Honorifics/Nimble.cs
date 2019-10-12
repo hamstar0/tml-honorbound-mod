@@ -17,7 +17,7 @@ namespace HonorBound.Honorifics {
 
 
 		public override void LoadOn( HonorBoundLogic logic ) {
-			var injConfig = ModLoader.GetMod( "Injury" ).GetConfig<InjuryConfig>();
+			var injConfig = ModContent.GetInstance<InjuryConfig>();
 			var injDefault = new InjuryConfig();
 
 			injConfig.DurationOfBleedingHeart = injDefault.DurationOfBleedingHeart / 3;
@@ -25,7 +25,7 @@ namespace HonorBound.Honorifics {
 		}
 
 		public override void LoadOff( HonorBoundLogic logic ) {
-			var injConfig = ModLoader.GetMod( "Injury" ).GetConfig<InjuryConfig>();
+			var injConfig = ModContent.GetInstance<InjuryConfig>();
 			var injDefault = new InjuryConfig();
 
 			injConfig.DurationOfBleedingHeart = injDefault.DurationOfBleedingHeart;
