@@ -1,5 +1,6 @@
 ﻿using HamstarHelpers.Classes.UI.Elements;
 using HamstarHelpers.Classes.UI.Theme;
+using HamstarHelpers.Helpers.Draw;
 using HamstarHelpers.Helpers.HUD;
 using HonorBound.NetProtocol;
 using Microsoft.Xna.Framework;
@@ -231,7 +232,7 @@ namespace HonorBound {
 			if( this.IsTogglerLit ) { bodyColor = HonorBoundUI.ButtonBodyLitColor; }
 			this.GetTogglerDimensions( out pos, out size );
 			
-			HUDHelpers.DrawBorderedRect( sb, bodyColor, edgeColor, pos, size, 2 );
+			DrawHelpers.DrawBorderedRect( sb, bodyColor, edgeColor, pos, size, 2 );
 		}
 		
 		public void CheckTogglerMouseInteraction() {
